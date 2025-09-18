@@ -25,19 +25,23 @@
 
     <!-- Navigation -->
     <nav class="navbar">
-      <div class="nav-container">
-        <a href="#home" class="logo">🏪 Kiosko VR</a>
-        <ul class="nav-menu">
-          <li class="nav-item"><a href="#home">🏠 Inicio</a></li>
-          <li class="nav-item"><a href="#concept">💡 Concepto</a></li>
-          <li class="nav-item"><a href="#prototypes">🔧 Prototipos</a></li>
-          <li class="nav-item"><a href="#sketches">🎨 Bocetos</a></li>
-          <li class="nav-item"><a href="#testing">🧪 Pruebas</a></li>
-          <li class="nav-item"><a href="#development">⚡ Desarrollo</a></li>
-          <li class="nav-item"><a href="#final">🎯 Final</a></li>
-        </ul>
-      </div>
-    </nav>
+  <div class="nav-container">
+    <a href="#home" class="logo">🏪 Kiosko VR</a>
+
+    <!-- Botón hamburguesa solo visible en móvil -->
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+
+    <ul class="nav-menu" id="nav-menu">
+      <li class="nav-item"><a href="#home">🏠 Inicio</a></li>
+      <li class="nav-item"><a href="#concept">💡 Concepto</a></li>
+      <li class="nav-item"><a href="#sketches">🎨 Bocetos</a></li>
+      <li class="nav-item"><a href="#prototypes">🔧 Prototipos</a></li>
+      <li class="nav-item"><a href="#testing">🧪 Pruebas</a></li>
+      <li class="nav-item"><a href="#team">👥 Equipo</a></li>
+    </ul>
+  </div>
+</nav>
+
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -55,7 +59,11 @@
         <div class="card">
           <h3>🎯 Desafío del Kiosko</h3>
           <div class="media-placeholder">
-            <img src="img/boceto1.jpeg" alt="Kiosko virtual" class="card-img" />
+            <img
+              src="img/kiosko_atencion.png"
+              alt="Kiosko virtual"
+              class="card-img"
+            />
           </div>
           <p>
             El jugador asume el papel de un
@@ -69,7 +77,7 @@
           <h3>👥 Estudiantes Apurados</h3>
           <div class="media-placeholder">
             <img
-              src="img/estudiantes.jpeg"
+              src="img/estudiantes_amontonados.jpg"
               alt="Estudiantes en recreo"
               class="card-img"
             />
@@ -86,7 +94,7 @@
           <h3>🛠️ Tecnología Divertida</h3>
           <div class="media-placeholder">
             <img
-              src="img/tecnologia.jpeg"
+              src="img/oculus.jpg"
               alt="Tecnología del kiosko VR"
               class="card-img"
             />
@@ -148,78 +156,156 @@
 
     <!-- Prototipos -->
     <section id="prototypes" class="section fade-in-up">
-  <h2>Prototipos del Kiosko</h2>
+      <h2>Prototipos del Kiosko</h2>
 
-  <div class="prototypes-grid">
+      <div class="prototypes-grid">
+        <!-- Primer prototipo -->
+        <a
+          href="https://tu-enlace-maqueta.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="prototype-card"
+        >
+          <h3>🧩 Maqueta Inicial</h3>
+          <div class="media-placeholder">
+            <img
+              src="img/boceto1.jpeg"
+              alt="Bocetos del kiosko"
+              class="card-img"
+              style="
+                width: 100%;
+                height: auto;
+                border-radius: 10px;
+                object-fit: cover;
+              "
+            />
+          </div>
+          <p>
+            Un prototipo básico que simulaba el espacio del kiosko en pequeño,
+            permitiendo validar la distribución de los elementos y la
+            interacción inicial dentro del entorno virtual.
+          </p>
+        </a>
 
-    <!-- Primer prototipo -->
-    <a href="https://tu-enlace-maqueta.com" target="_blank" rel="noopener noreferrer" class="prototype-card">
-      <h3>🧩 Maqueta Inicial</h3>
-      <div class="media-placeholder">
-        Vista del kiosko en su versión reducida
+        <!-- Segundo prototipo -->
+        <a
+          href="https://tu-enlace-escenario.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="prototype-card"
+        >
+          <h3>🏪 Escenario Realista</h3>
+          <div class="media-placeholder">
+            <img
+              src="img/escenario_real.jpg"
+              alt="Bocetos del kiosko"
+              class="card-img"
+              style="
+                width: 100%;
+                height: auto;
+                border-radius: 10px;
+                object-fit: cover;
+              "
+            />
+          </div>
+          <p>
+            Una versión más fiel al juego final, con un entorno escolar
+            detallado y dinámicas de atención al público. Este escenario fue
+            diseñado para realizar pruebas con personas y evaluar la experiencia
+            del jugador.
+          </p>
+        </a>
       </div>
-      <p>
-        Un prototipo básico que simulaba el espacio del kiosko en pequeño, 
-        permitiendo validar la distribución de los elementos y la interacción inicial 
-        dentro del entorno virtual.
-      </p>
-    </a>
+    </section>
 
-    <!-- Segundo prototipo -->
-    <a href="https://tu-enlace-escenario.com" target="_blank" rel="noopener noreferrer" class="prototype-card">
-      <h3>🏪 Escenario Realista</h3>
-      <div class="media-placeholder">
-        Capturas del entorno completo en VR
+    <!-- Pruebas con Usuarios -->
+    <section id="testing" class="section fade-in-up">
+      <h2>Pruebas con Usuarios</h2>
+      <div class="tests-grid">
+        <!-- Prueba Realista -->
+        <a
+          href="https://drive.google.com/drive/folders/1GCkWTLH9UdsSgZhXakhGkrhAQ2WkQR7q"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="test-card"
+        >
+          <h3>🎥 Prueba Realista</h3>
+          <div class="media-placeholder">
+            <img
+              src="img/imagen_exp1.png"
+              alt="Bocetos del kiosko"
+              class="card-img"
+              style="
+                width: 100%;
+                height: auto;
+                border-radius: 10px;
+                object-fit: cover;
+              "
+            />
+          </div>
+          <p>
+            Documentación en video de las pruebas realizadas con el kiosko
+            físico reducido, donde se evaluó la dinámica de atención y la
+            experiencia del jugador en un entorno simulado.
+          </p>
+        </a>
+
+        <!-- Prueba VR (aún no disponible) -->
+        <a
+          href="https://tu-enlace-prueba-vr.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="test-card"
+        >
+          <h3>🕶️ Prueba VR</h3>
+          <div class="media-placeholder">
+            Próximamente: videos de la experiencia en realidad virtual
+          </div>
+          <p>
+            Se planifica realizar pruebas con la versión VR completa del kiosko,
+            donde los jugadores podrán vivir la experiencia en un entorno
+            inmersivo. Esta fase aún está en preparación.
+          </p>
+        </a>
       </div>
-      <p>
-        Una versión más fiel al juego final, con un entorno escolar detallado y 
-        dinámicas de atención al público. Este escenario fue diseñado para 
-        realizar pruebas con personas y evaluar la experiencia del jugador.
-      </p>
-    </a>
+    </section>
+    <!-- Sección Equipo -->
+    <section id="team" class="section fade-in-up">
+      <h2>👥 Presentación del Equipo</h2>
+      <div class="cards-grid">
+        <!-- Miembro 1 -->
+        <div class="card team-card">
+          <img src="img/foto_wil.jpeg" alt="Integrante 1" class="team-img" />
+          <h3>👩‍💻 Wilson Isaac Mamani Casilla</h3>
+          <p>
+            Soy un entusiasta de la programación con experiencia en Python y C. Me apasiona el análisis y la ingeniería de datos, explorando cómo transformar grandes volúmenes de información en soluciones útiles y eficientes. Disfruto resolver problemas y aprender nuevas herramientas que potencien el trabajo con datos.
+          </p>
+          <div class="social-icons">
+            <a href="https://github.com/" target="_blank"
+              ><img src="img/github-sign.png" alt="GitHub" width="32" height="32"
+            /></a>
+          </div>
+        </div>
 
-  </div>
-</section>
-
-
-<!-- Pruebas con Usuarios -->
-<section id="testing" class="section fade-in-up">
-  <h2>Pruebas con Usuarios</h2>
-  <div class="tests-grid">
-
-    <!-- Prueba Realista -->
-    <a href="https://tu-enlace-prueba-realista.com" target="_blank" rel="noopener noreferrer" class="test-card">
-      <h3>🎥 Prueba Realista</h3>
-      <div class="media-placeholder">
-        Videos de usuarios interactuando con la maqueta
+        <!-- Miembro 2 -->
+        <div class="card team-card">
+          <img src="img/integrante2.jpg" alt="Integrante 2" class="team-img" />
+          <h3>🎨 Nombre Integrante 2</h3>
+          <p>
+            Rol principal en el proyecto (ejemplo: Diseño, arte conceptual,
+            documentación).
+          </p>
+          <div class="social-icons">
+            <a href="https://github.com/" target="_blank">🐱</a>
+            <a href="https://linkedin.com/" target="_blank">💼</a>
+            <a href="https://twitter.com/" target="_blank">🐦</a>
+          </div>
+        </div>
       </div>
-      <p>
-        Documentación en video de las pruebas realizadas con el kiosko físico reducido, 
-        donde se evaluó la dinámica de atención y la experiencia del jugador en un entorno simulado.
-      </p>
-    </a>
-
-    <!-- Prueba VR (aún no disponible) -->
-    <a href="https://tu-enlace-prueba-vr.com" target="_blank" rel="noopener noreferrer" class="test-card">
-      <h3>🕶️ Prueba VR</h3>
-      <div class="media-placeholder">
-        Próximamente: videos de la experiencia en realidad virtual
-      </div>
-      <p>
-        Se planifica realizar pruebas con la versión VR completa del kiosko, 
-        donde los jugadores podrán vivir la experiencia en un entorno inmersivo. 
-        Esta fase aún está en preparación.
-      </p>
-    </a>
-
-  </div>
-</section>
-
-
-   
+    </section>
 
     <!-- Resultado Final -->
-   
+
     <script src="script.js"></script>
   </body>
 </html>

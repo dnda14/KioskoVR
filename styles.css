@@ -169,7 +169,27 @@
         padding: 2rem;
     }
 }
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none; /* oculto por defecto */
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  }
 
+  .nav-menu.active {
+    display: flex; /* aparece cuando se activa */
+  }
+
+  .menu-toggle {
+    display: block; /* visible en móvil */
+  }
+}
 @media (max-width: 480px) {
     .hero h1 {
         font-size: 2rem;
@@ -211,7 +231,6 @@ html {
 }
 
 /* ===== ANIMACIONES GLOBALES ===== */
-
 
 @keyframes slideInBounce {
     0% {
@@ -700,4 +719,32 @@ html {
   .tests-grid {
     grid-template-columns: 1fr;
   }
+}
+/* Imagen de perfil en la card */
+.team-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 1rem;
+  display: block;
+  border: 3px solid #FF6B9D;
+}
+
+/* Íconos sociales */
+.social-icons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-icons a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
 }
