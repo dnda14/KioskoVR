@@ -3,348 +3,582 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kiosko VR - El Recreo Virtual más Divertido</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>El Kiosko de la Seño VeRo</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* Navegación fija */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem 5%;
+        z-index: 1000;
+        border-bottom: 2px solid #3aed7f;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        list-style: none;
+      }
+
+      nav a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+        position: relative;
+        cursor: pointer;
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #3aed3d;
+        transition: width 0.3s;
+      }
+
+      nav a:hover {
+        color: #8bfa9f;
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      /* Contenedor de secciones */
+      .sections-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+      }
+
+      /* Secciones base */
+      section {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 6rem 5% 2rem;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center center;
+      }
+
+      section.inactive {
+        transform: scale(1);
+        opacity: 1;
+        pointer-events: none;
+        filter: blur(0);
+        z-index: 1;
+      }
+
+      section.active {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 100;
+        pointer-events: all;
+        filter: blur(0);
+      }
+
+      /* Overlay difuminado para secciones activas (excepto inicio) */
+      section.active:not(#inicio)::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        z-index: -1;
+      }
+
+      /* Contenedor de card para secciones que no son inicio */
+      section:not(#inicio) {
+        padding: 0;
+      }
+
+      section:not(#inicio) > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      .section-content-wrapper {
+        background: rgba(10, 10, 10, 0.95);
+        border: 2px solid #3aed7f;
+        border-radius: 30px;
+        padding: 3rem;
+        max-width: 900px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(58, 237, 127, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      section:not(#inicio).active .section-content-wrapper {
+        animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: scale(0.8) translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Portada */
+      .hero {
+        background: linear-gradient(135deg, #1a0933 0%, #0a0a0a 100%);
+      }
+
+      .hero-content {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        max-width: 1200px;
+        width: 100%;
+        z-index: 2;
+      }
+
+      .hero-left {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        text-align: left;
+      }
+
+      .hero-right p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #ffffff;
+      }
+
+      .hero-icon {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .section-title {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        color: #8bfab9;
+        text-align: center;
+      }
+
+      .section-description {
+        font-size: 1.2rem;
+        color: #d1d5db;
+        text-align: center;
+        max-width: 800px;
+        margin-bottom: 3rem;
+        line-height: 1.8;
+      }
+
+      /* Sección previa */
+      .preview-section {
+        background: linear-gradient(135deg, #1a0933 0%, #0a0a0a 100%);
+      }
+
+      .preview-card {
+        background: rgba(124, 58, 237, 0.1);
+        border: 2px solid #3aed43;
+        border-radius: 20px;
+        padding: 3rem;
+        max-width: 600px;
+        text-align: center;
+        transition: all 0.3s;
+      }
+
+      .preview-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3);
+      }
+
+      .preview-card h3 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+      }
+
+      .preview-card p {
+        font-size: 1.1rem;
+        color: #d1d5db;
+        margin-bottom: 2rem;
+        line-height: 1.8;
+      }
+
+      /* Equipo */
+      .team-grid {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 1400px;
+      }
+
+      .team-card {
+        flex: 0 1 220px;
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.2) 0%,
+          rgba(10, 10, 10, 0.8) 100%
+        );
+        border: 2px solid #5eed3a;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s;
+      }
+
+      .team-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+      }
+
+      .team-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 3px solid #3aed67;
+        margin: 0 auto 1.5rem;
+        overflow: hidden;
+      }
+
+      .team-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .team-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #28bb21;
+      }
+
+      .team-card p {
+        font-size: 1rem;
+        color: #d1d5db;
+        margin-bottom: 1.5rem;
+      }
+
+      .github-link {
+        display: inline-block;
+        padding: 0.7rem 1.5rem;
+        background: #3aed40;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+
+      .github-link:hover {
+        background: #45d928;
+        transform: scale(1.05);
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background: #07a449;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        border: 2px solid #054b27;
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        text-align: center;
+        width: fit-content;
+        cursor: pointer;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+        background: #2bd928;
+      }
+
+      /* Botón volver al inicio */
+      .back-to-home {
+        position: fixed;
+        bottom: 3rem;
+        right: 3rem;
+        width: 60px;
+        height: 60px;
+        background: #07a449;
+        border: 2px solid #3aed7f;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        z-index: 999;
+        box-shadow: 0 4px 15px rgba(7, 164, 73, 0.4);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .back-to-home.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .back-to-home:hover {
+        transform: scale(1.1) translateY(-3px);
+        background: #2bd928;
+        box-shadow: 0 8px 25px rgba(7, 164, 73, 0.6);
+      }
+
+      .back-to-home svg {
+        width: 28px;
+        height: 28px;
+        fill: white;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero-content {
+          flex-direction: column;
+          text-align: center;
+          gap: 2rem;
+        }
+
+        .hero-right {
+          text-align: center;
+        }
+
+        .hero-icon {
+          max-width: 300px;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          gap: 1.5rem;
+        }
+
+        nav a {
+          font-size: 0.9rem;
+        }
+
+        .team-grid {
+          max-height: 60vh;
+          overflow-y: auto;
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- Floating background elements -->
-    <div class="floating-elements">
-      <div class="floating-snack">🍿</div>
-      <div class="floating-snack">🍭</div>
-      <div class="floating-snack">🥤</div>
-      <div class="floating-snack">🍪</div>
-      <div class="floating-snack">🧁</div>
-      <div class="floating-snack">🍫</div>
-      <div class="floating-snack">🍩</div>
-      <div class="floating-snack">🍰</div>
+    <!-- Navegación -->
+    <nav>
+      <ul>
+        <li><a data-section="inicio">Inicio</a></li>
+        <li><a data-section="diseno">Diseño</a></li>
+        <li><a data-section="pruebas">Pruebas</a></li>
+        <li><a data-section="equipo">Equipo</a></li>
+      </ul>
+    </nav>
+
+    <div class="sections-container">
+      <!-- Portada -->
+      <section id="inicio" class="hero active">
+        <div class="hero-content">
+          <div class="hero-left">
+            <img src="img/icon3.png" alt="Kiosko Icon" class="hero-icon" />
+          </div>
+          <div class="hero-right">
+            <p>
+              Diviértete atendiendo estudiantes en un kiosko educativo en Realidad Virtual
+            </p>
+            <a class="cta-button" data-section="diseno">Explorar el Proyecto</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección Diseño -->
+      <section id="diseno" class="preview-section inactive">
+        <h2 class="section-title">Proceso de Diseño</h2>
+        <div class="preview-card">
+          <h3>🎨 Diseño y Desarrollo</h3>
+          <p>
+            Explora el recorrido completo desde los primeros bocetos hasta la
+            versión final en Realidad Virtual. Descubre cómo evolucionó nuestro
+            kiosko educativo a través de maquetas físicas, escenarios reales y
+            entornos virtuales inmersivos.
+          </p>
+          <a href="diseno.html" class="cta-button">Ver Timeline de Diseño</a>
+        </div>
+      </section>
+
+      <!-- Sección Pruebas -->
+      <section id="pruebas" class="preview-section inactive">
+        <h2 class="section-title">Pruebas y Validación</h2>
+        <div class="preview-card">
+          <h3>🧪 Testing del Proyecto</h3>
+          <p>
+            Conoce las diferentes etapas de pruebas realizadas con usuarios
+            reales. Desde la validación con maquetas físicas hasta las pruebas de
+            usabilidad en el entorno VR final, documentamos cada aprendizaje del
+            proceso.
+          </p>
+          <a href="pruebas.html" class="cta-button">Ver Timeline de Pruebas</a>
+        </div>
+      </section>
+
+      <!-- Sección Equipo -->
+      <section id="equipo" class="inactive">
+        <h2 class="section-title">Nuestro Equipo</h2>
+        <p class="section-description">
+          El grupo de desarrolladores que hizo posible este proyecto educativo
+        </p>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-photo">
+              <img src="img/foto_ar.jpeg" alt="Arleen Ferro Vasquez">
+            </div>
+            <h3>Arleen Ferro Vasquez</h3>
+            <p>Rol: Diseñador UX/UI</p>
+            <a href="https://github.com/usuario1" class="github-link" target="_blank">GitHub</a>
+          </div>
+          <div class="team-card">
+            <div class="team-photo">
+              <img src="img/foto_wil.jpeg" alt="Wilson Mamani Casilla">
+            </div>
+            <h3>Wilson Mamani Casilla</h3>
+            <p>Rol: Desarrollador VR</p>
+            <a href="https://github.com/usuario2" class="github-link" target="_blank">GitHub</a>
+          </div>
+          <div class="team-card">
+            <div class="team-photo">
+              <img src="img/foto_jaz.jpeg" alt="Jazmin Perez Villasante">
+            </div>
+            <h3>Jazmin Perez Villasante</h3>
+            <p>Rol: Desarrollador Backend</p>
+            <a href="https://github.com/usuario3" class="github-link" target="_blank">GitHub</a>
+          </div>
+          <div class="team-card">
+            <div class="team-photo">
+              <img src="img/foto_edil.jpeg" alt="Edilson Mamani Yucra">
+            </div>
+            <h3>Edilson Mamani Yucra</h3>
+            <p>Rol: Tester QA</p>
+            <a href="https://github.com/usuario4" class="github-link" target="_blank">GitHub</a>
+          </div>
+          <div class="team-card">
+            <div class="team-photo">
+              <img src="img/foto_cri.jpeg" alt="Cristhian Huanca Olazabal">
+            </div>
+            <h3>Cristhian Huanca Olazabal</h3>
+            <p>Rol: Product Manager</p>
+            <a href="https://github.com/usuario5" class="github-link" target="_blank">GitHub</a>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-  <div class="nav-container">
-    <a href="#home" class="logo">🏪 Kiosko VR</a>
+    <!-- Botón Volver al Inicio -->
+    <button class="back-to-home" id="backToHome" title="Volver al inicio">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </button>
 
-    <!-- Botón hamburguesa solo visible en móvil -->
-    <button class="menu-toggle" id="menu-toggle">☰</button>
+    <script>
+      // Navegación con efecto zoom
+      const navLinks = document.querySelectorAll('nav a, .cta-button[data-section]');
+      const sections = document.querySelectorAll('section');
+      const backToHomeBtn = document.getElementById('backToHome');
 
-    <ul class="nav-menu" id="nav-menu">
-      <li class="nav-item"><a href="#home">🏠 Inicio</a></li>
-      <li class="nav-item"><a href="#concept">💡 Concepto</a></li>
-      <li class="nav-item"><a href="#sketches">🎨 Bocetos</a></li>
-      <li class="nav-item"><a href="#prototypes">🔧 Prototipos</a></li>
-      <li class="nav-item"><a href="#testing">🧪 Pruebas</a></li>
-      <li class="nav-item"><a href="#team">👥 Equipo</a></li>
-    </ul>
-  </div>
-</nav>
+      function showSection(targetId) {
+        sections.forEach(section => {
+          if (section.id === targetId) {
+            section.classList.remove('inactive');
+            section.classList.add('active');
+          } else {
+            section.classList.remove('active');
+            section.classList.add('inactive');
+          }
+        });
 
+        // Mostrar u ocultar botón de volver al inicio
+        if (targetId === 'inicio') {
+          backToHomeBtn.classList.remove('show');
+        } else {
+          backToHomeBtn.classList.add('show');
+        }
+      }
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h1>Kiosko VR</h1>
-        <p>¡El recreo más divertido ahora en realidad virtual! 🎮✨</p>
-        <a href="#concept" class="cta-button">🚀 ¡Explorar el Proyecto!</a>
-      </div>
-    </section>
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetSection = this.getAttribute('data-section');
+          if (targetSection) {
+            showSection(targetSection);
+          }
+        });
+      });
 
-    <!-- Concepto Initial -->
-    <section id="concept" class="section fade-in-up">
-      <h2>Concepto e Idea Inicial</h2>
-      <div class="cards-grid">
-        <div class="card">
-          <h3>🎯 Desafío del Kiosko</h3>
-          <div class="media-placeholder">
-            <img
-              src="img/kiosko_atencion.png"
-              alt="Kiosko virtual"
-              class="card-img"
-            />
-          </div>
-          <p>
-            El jugador asume el papel de un
-            <strong>vendedor de kiosko</strong> que debe atender rápidamente a
-            los escolares durante el recreo. La meta es entregar los productos
-            correctos antes de que termine el tiempo.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>👥 Estudiantes Apurados</h3>
-          <div class="media-placeholder">
-            <img
-              src="img/estudiantes_amontonados.jpg"
-              alt="Estudiantes en recreo"
-              class="card-img"
-            />
-          </div>
-          <p>
-            Los clientes son
-            <strong>estudiantes hambrientos y con poco tiempo</strong>. Cada uno
-            pide sus golosinas favoritas, y el jugador debe atenderlos con
-            rapidez y precisión para mantenerlos contentos.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>🛠️ Tecnología Divertida</h3>
-          <div class="media-placeholder">
-            <img
-              src="img/oculus.jpg"
-              alt="Tecnología del kiosko VR"
-              class="card-img"
-            />
-          </div>
-          <p>
-            El juego está desarrollado en <strong>Unity para VR</strong> usando
-            Oculus Meta Quest. Incluye físicas realistas para los productos y un
-            sistema de tiempo limitado que aumenta la presión del jugador,
-            recreando el bullicio del recreo.
-          </p>
-        </div>
-      </div>
-    </section>
-    <!-- Bocetos -->
-    <section id="sketches" class="section fade-in-up">
-      <h2>Bocetos y Sketching a Mano</h2>
-      <div class="cards-grid">
-        <a
-          href="https://photos.app.goo.gl/Gxqi56CcZvCUuHeeA"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card"
-          style="
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-          "
-        >
-          <!-- Imagen -->
-          <div class="media-placeholder" style="flex: 1; max-width: 40%">
-            <img
-              src="img/boceto1.jpeg"
-              alt="Bocetos del kiosko"
-              class="card-img"
-              style="
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-                object-fit: cover;
-              "
-            />
-          </div>
-
-          <!-- Texto -->
-          <div style="flex: 2">
-            <h3>📝 Bocetos Iniciales</h3>
-            <p>
-              Estos <strong>sketches a mano</strong> muestran la idea original
-              del kiosko virtual. Los dibujos capturan la distribución del
-              puesto, los productos y la dinámica de atender a los estudiantes
-              en el recreo.
-            </p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Prototipos -->
-    <section id="prototypes" class="section fade-in-up">
-      <h2>Prototipos del Kiosko</h2>
-
-      <div class="prototypes-grid">
-        <!-- Primer prototipo -->
-        <a
-          href="https://photos.app.goo.gl/R8YjWZbKQCiFsUkMA"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="prototype-card"
-        >
-          <h3>🧩 Maqueta Inicial</h3>
-          <div class="media-placeholder">
-            <img
-              src="img/boceto1.jpeg"
-              alt="Bocetos del kiosko"
-              class="card-img"
-              style="
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-                object-fit: cover;
-              "
-            />
-          </div>
-          <p>
-            Un prototipo básico que simulaba el espacio del kiosko en pequeño,
-            permitiendo validar la distribución de los elementos y la
-            interacción inicial dentro del entorno virtual.
-          </p>
-        </a>
-
-        <!-- Segundo prototipo -->
-        <a
-          href="https://photos.google.com/share/AF1QipN9sT-c2KmwUk7giMUTaVv363nYtSNrA82VJ0E96zpLsVLl4PVn4N_Xxn-AtdcSlA?key=SUFZTzdjR1lYYUVLbG1UZzg3akdFandOZUt2Y2V3
-          rel="noopener noreferrer"
-          class="prototype-card"
-        >
-          <h3>🏪 Escenario Realista</h3>
-          <div class="media-placeholder">
-            <img
-              src="img/escenario_real.jpg"
-              alt="Bocetos del kiosko"
-              class="card-img"
-              style="
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-                object-fit: cover;
-              "
-            />
-          </div>
-          <p>
-            Una versión más fiel al juego final, con un entorno escolar
-            detallado y dinámicas de atención al público. Este escenario fue
-            diseñado para realizar pruebas con personas y evaluar la experiencia
-            del jugador.
-          </p>
-        </a>
-      </div>
-    </section>
-
-    <!-- Pruebas con Usuarios -->
-    <section id="testing" class="section fade-in-up">
-      <h2>Pruebas con Usuarios</h2>
-      <div class="tests-grid">
-        <!-- Prueba Realista -->
-        <a
-          href="https://drive.google.com/drive/folders/1GCkWTLH9UdsSgZhXakhGkrhAQ2WkQR7q"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="test-card"
-        >
-          <h3>🎥 Prueba Realista</h3>
-          <div class="media-placeholder">
-            <img
-              src="img/imagen_exp1.png"
-              alt="Bocetos del kiosko"
-              class="card-img"
-              style="
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-                object-fit: cover;
-              "
-            />
-          </div>
-          <p>
-            Documentación en video de las pruebas realizadas con el kiosko
-            físico reducido, donde se evaluó la dinámica de atención y la
-            experiencia del jugador en un entorno simulado.
-          </p>
-        </a>
-
-        <!-- Prueba VR (aún no disponible) -->
-        <a
-          href="https://tu-enlace-prueba-vr.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="test-card"
-        >
-          <h3>🕶️ Prueba VR</h3>
-          <div class="media-placeholder">
-            Próximamente: videos de la experiencia en realidad virtual
-          </div>
-          <p>
-            Se planifica realizar pruebas con la versión VR completa del kiosko,
-            donde los jugadores podrán vivir la experiencia en un entorno
-            inmersivo. Esta fase aún está en preparación.
-          </p>
-        </a>
-      </div>
-    </section>
-    <!-- Sección Equipo -->
-    <section id="team" class="section fade-in-up">
-      <h2>👥 Presentación del Equipo</h2>
-      <div class="cards-grid">
-        <!-- Miembro 1 -->
-        <div class="card team-card">
-          <img src="img/foto_wil.jpeg" alt="Integrante 1" class="team-img" />
-          <h3>Wilson Isaac Mamani Casilla</h3>
-          <p>
-            Soy un entusiasta de la programación con experiencia en Python y C. Me apasiona el análisis y la ingeniería de datos, explorando cómo transformar grandes volúmenes de información en soluciones útiles y eficientes. Disfruto resolver problemas y aprender nuevas herramientas que potencien el trabajo con datos.
-          </p>
-          <div class="social-icons">
-            <a href="https://github.com/" target="_blank"
-              ><img src="img/github-sign.png" alt="GitHub" width="32" height="32"
-            /></a>
-          </div>
-        </div>
-
-        <!-- Miembro 2 -->
-        <div class="card team-card">
-          <img src="img/foto_edil.jpeg" alt="Integrante 2" class="team-img" />
-          <h3>Edilson Mamani Yucra</h3>
-          <p>
-            Amante de la programación y la optimización de algoritmos en C y Python. Siempre está experimentando con nuevos métodos de análisis de datos y diseñando soluciones eficientes para proyectos complejos.
-          </p>
-          <div class="social-icons">
-            <a href="https://github.com/" target="_blank"
-              ><img src="img/github-sign.png" alt="GitHub" width="32" height="32"
-            /></a>
-          </div>
-        </div>
-         <!-- Miembro 3 -->
-        <div class="card team-card">
-          <img src="img/foto_jaz.jpeg" alt="Integrante 2" class="team-img" />
-          <h3>Jazmin Perez Villasante</h3>
-          <p>
-            Estudiante creativa de ingeniería de datos que disfruta transformar información en visualizaciones impactantes. Fanática de los desafíos de programación y las competencias de codificación.
-          </p>
-          <div class="social-icons">
-            <a href="https://github.com/" target="_blank"
-              ><img src="img/github-sign.png" alt="GitHub" width="32" height="32"
-            /></a>
-          </div>
-        </div>
-         <!-- Miembro 4 -->
-        <div class="card team-card">
-          <img src="img/foto_cri.jpeg" alt="Integrante 2" class="team-img" />
-          <h3>Christian Huanca Olazabal</h3>
-          <p>
-            Ingeniero de datos en formación con enfoque en estadísticas y modelado de datos. Disfruta explorar grandes conjuntos de información y crear dashboards interactivos que cuenten historias con los datos.
-          </p>
-          <div class="social-icons">
-            <a href="https://github.com/" target="_blank"
-              ><img src="img/github-sign.png" alt="GitHub" width="32" height="32"
-            /></a>
-          </div>
-        </div>
-         <!-- Miembro 5 -->
-        <div class="card team-card">
-          <img src="img/foto_ar.jpeg" alt="Integrante 2" class="team-img" />
-          <h3>Arleen Ferro Vasquez</h3>
-          <p>
-            Apasionada por la inteligencia artificial y el aprendizaje automático. Siempre busca nuevas formas de aplicar Python y C en proyectos de análisis de datos. Le encanta organizar hackathons y compartir conocimientos con compañeros.
-          </p>
-          <div class="social-icons">
-            <a href="https://github.com/" target="_blank"
-              ><img src="img/github-sign.png" alt="GitHub" width="32" height="32"
-            /></a>
-          </div>
-        </div>
-         <!-- Miembro 6 -->
-       
-      </div>
-    </section>
-
-    <!-- Resultado Final -->
-
-    <script src="script.js"></script>
+      // Funcionalidad del botón volver al inicio
+      backToHomeBtn.addEventListener('click', function() {
+        showSection('inicio');
+      });
+    </script>
   </body>
 </html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senho VeRo</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #scene {
+      width: 100vw;
+      height: 100vh;
+      background-image: url("img/kiosko.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    /* BOTONES */
+    .interactive-button {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.15);
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .interactive-button:hover {
+      transform: scale(1.05);
+      background: rgba(255,255,255,0.25);
+    }
+
+    .button-icon { font-size: 60px; }
+    .button-title { font-size: 18px; font-weight: 600; }
+
+    .btn-1 { top: 50%; left: 20%;  }
+    .btn-2 { top: 30%; right: 22%; }
+    .btn-3 { bottom: 15%; left: 50%; }
+
+    /* CARD */
+    .info-card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: white;
+      border-radius: 25px;
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+      z-index: 100;
+    }
+
+    .info-card.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+      z-index: 50;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .card-btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      color: white;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .btn-youtube { background: #d00; }
+    .btn-close { background: #555; }
+
+    .carousel-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform .35s ease-in-out;
+      gap: 20px;
+    }
+
+    .carousel-item {
+      min-width: 340px;
+      max-width: 340px;
+      flex-shrink: 0;
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.22);
+      border: 3px solid rgba(255, 0, 150, 0.5);
+      transition: all .3s;
+      opacity: 0.4;
+      transform: scale(0.9);
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+      transform: scale(1);
+      border-color: rgba(255,0,150,1);
+    }
+
+    .carousel-item-icon {
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+
+    .carousel-item-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .carousel-item-content {
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: rgba(0,0,0,0.45);
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 10px;
+      z-index: 120;
+      transition: .2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(0,0,0,0.7);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    #prevBtn { left: -10px; }
+    #nextBtn { right: -10px; }
+    /* Tarjetas de equipo */
+.carousel-item.team {
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,245,245,0.9));
+  border: 2px solid rgba(255,255,255,0.6);
+  color: #222;
+  padding: 15px;
+}
+
+.carousel-item.team .team-photo {
+  width: 90px;           /* más pequeño */
+  height: 90px;          /* cuadrado y compacto */
+  border-radius: 50%;    /* redondo */
+  object-fit: cover;     /* recorta sin deformar */
+  margin: 0 auto 10px;   /* centrado */
+  display: block;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+
+.carousel-item.team .carousel-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.carousel-item.team .carousel-item-content {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="scene">
+    <div class="interactive-button btn-1" data-id="info1">
+      <div class="button-icon">🎨</div>
+      <div class="button-title">Diseño Creativo</div>
+    </div>
+
+    <div class="interactive-button btn-2" data-id="info2">
+      <div class="button-icon">💻</div>
+      <div class="button-title">Desarrollo Web</div>
+    </div>
+
+    <div class="interactive-button btn-3" data-id="info3">
+      <div class="button-icon">🎮</div>
+      <div class="button-title">Juegos 3D</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="info-card" id="infoCard">
+    <button id="prevBtn" class="nav-btn">◀</button>
+
+    <div class="carousel-container">
+      <div id="carousel" class="carousel"></div>
+    </div>
+
+    <button id="nextBtn" class="nav-btn">▶</button>
+
+    <button class="card-btn btn-close" id="closeBtn">Volver</button>
+  </div>
+
+  <script>
+  const data = {
+    info1: [
+      {
+        icon: "🎨",
+        title: "Bocetos iniciales",
+        content: "Arte visual creativo y moderno.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      },
+      {
+        icon: "🖌",
+        title: "Maqueta Física",
+        content: "Diseño de maqueta a escala para pruebas iniciales.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      },
+      {
+        icon: "🏗",
+        title: "Escenario Real",
+        content: "Diseño del espacio real para validar proporciones.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      },
+      {
+        icon: "🕶",
+        title: "Realidad Virtual",
+        content: "Adaptación completa al entorno VR con interacción inmersiva.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      }
+    ],
+    info2: [
+      {
+        icon: "💻",
+        title: "Pruebas con maqueta",
+        content: "Evaluación de interacción física con el modelo.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      },
+      {
+        icon: "🧠",
+        title: "Pruebas escenario real",
+        content: "Revisión de tiempos de respuesta y adaptación del entorno.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      },
+      {
+        icon: "🕹",
+        title: "Pruebas VR",
+        content: "Testeo con usuarios dentro del entorno virtual.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      }
+    ],
+    info3: [
+      {
+        photo: "img/foto_ar.jpeg",
+        name: "Arleen Ferro Vasquez",
+        role: "Diseñadora UX/UI"
+      },
+      {
+        photo: "img/foto_wil.jpeg",
+        name: "Wilson Mamani Casilla",
+        role: "Desarrollador VR"
+      },
+      {
+        photo: "img/foto_jaz.jpeg",
+        name: "Jazmin Perez Villasante",
+        role: "Desarrolladora Backend"
+      },
+      {
+        photo: "img/foto_edil.jpeg",
+        name: "Edilson Mamani Yucra",
+        role: "Tester QA"
+      },
+      {
+        photo: "img/foto_cri.jpeg",
+        name: "Cristhian Huanca Olazabal",
+        role: "Product Manager"
+      }
+    ]
+  };
+
+  const overlay = document.getElementById("overlay");
+  const card = document.getElementById("infoCard");
+  const carousel = document.getElementById("carousel");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  let currentIndex = 0;
+
+  document.querySelectorAll(".interactive-button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const items = data[btn.dataset.id];
+      carousel.innerHTML = "";
+      currentIndex = 0;
+
+      // Si el botón es info3 (equipo)
+      if (btn.dataset.id === "info3") {
+        items.forEach(member => {
+          carousel.innerHTML += `
+            <div class="carousel-item team">
+              <img src="${member.photo}" alt="${member.name}" class="team-photo" />
+              <div class="carousel-item-title">${member.name}</div>
+              <div class="carousel-item-content">${member.role}</div>
+            </div>`;
+        });
+      } else {
+        // Para los demás botones
+        items.forEach(item => {
+          carousel.innerHTML += `
+            <div class="carousel-item">
+              <div class="carousel-item-icon">${item.icon}</div>
+              <div class="carousel-item-title">${item.title}</div>
+              <div class="carousel-item-content">${item.content}</div>
+              <button class="card-btn btn-youtube" onclick="window.open('${item.url}', '_blank')">Ver en YouTube</button>
+            </div>`;
+        });
+      }
+
+      moveCarousel();
+      overlay.classList.add("active");
+      card.classList.add("active");
+    });
+  });
+
+  function moveCarousel() {
+    const container = carousel.parentElement;
+    const cardWidth = 340;
+    const gap = 20;
+    const containerWidth = container.offsetWidth;
+    const centerOffset = (containerWidth - cardWidth) / 2;
+    const translateX = -(currentIndex * (cardWidth + gap)) + centerOffset;
+    carousel.style.transform = `translateX(${translateX}px)`;
+    updateActiveCard();
+    updateButtons();
+  }
+
+  function updateActiveCard() {
+    [...carousel.children].forEach((item, i) =>
+      item.classList.toggle("active", i === currentIndex)
+    );
+  }
+
+  function updateButtons() {
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === carousel.children.length - 1;
+  }
+
+  prevBtn.onclick = () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      moveCarousel();
+    }
+  };
+
+  nextBtn.onclick = () => {
+    if (currentIndex < carousel.children.length - 1) {
+      currentIndex++;
+      moveCarousel();
+    }
+  };
+
+  function closeCard() {
+    overlay.classList.remove("active");
+    card.classList.remove("active");
+  }
+
+  document.getElementById("closeBtn").addEventListener("click", closeCard);
+  overlay.addEventListener("click", closeCard);
+</script>
+
+</body>
+</html>
