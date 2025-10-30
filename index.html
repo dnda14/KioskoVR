@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Senho VeRo</title>
+    <title>Portal de Proyectos</title>
 
     <style>
       * {
@@ -14,42 +14,181 @@
 
       body {
         font-family: "Segoe UI", sans-serif;
-        background: #000;
         overflow: hidden;
         cursor: url("img/mano_cursor_default.png") 0 0, auto;
       }
-      
-      /* Cursor pointer para elementos clickeables */
-    /* Cursor pointer para elementos clickeables */
-    .interactive-button,
-    .card-btn,
-    .nav-btn:not(:disabled),
-    button:not(:disabled) {
-      cursor: url('img/mano_cursor_default.png') 0 0, pointer !important;
-    }
+      /* Cursores personalizados para elementos clickeables */
+      .portal-split,
+      .p1-button,
+      .p1-card-btn,
+      .p1-nav-btn:not(:disabled),
+      .p2-button,
+      .p2-card-btn,
+      .p2-nav-btn:not(:disabled),
+      .back-btn,
+      button:not(:disabled) {
+        cursor: url("img/mano_cursor_default.png") 0 0, pointer !important;
+      }
 
-    /* Cursor bloqueado para botones desabilitados */
-    .nav-btn:disabled,
-    button:disabled {
-      cursor: url('img/mano_cursor_bloqueado.png') 0 0, not-allowed !important;
-      pointer-events: auto;
-    }
-
-      #scene {
-        width: 100vw;
+      /* Cursor bloqueado para botones desabilitados */
+      .p1-nav-btn:disabled,
+      .p2-nav-btn:disabled,
+      button:disabled {
+        cursor: url("img/mano_cursor_bloqueado.png") 0 0, not-allowed !important;
+        pointer-events: auto;
+      }
+      /* ESTILOS DEL PORTAL (división inicial) */
+      .portal-container {
+        width: 100%;
         height: 100vh;
+        display: flex;
+        transition: opacity 0.5s ease;
+      }
+
+      .portal-container.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .portal-split {
+        position: relative;
+        width: 50vw;
+        height: 100vh;
+        overflow: hidden;
+        transition: width 0.8s ease;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .portal-split.left {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .portal-split.right {
+        background: #000;
+      }
+
+      .portal-title {
+        font-size: 3rem;
+        text-align: center;
+        font-weight: bold;
+        color: white;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .portal-title small {
+        font-size: 1.2rem;
+        display: block;
+        margin-top: 10px;
+        opacity: 0.8;
+      }
+
+      /* Vista previa del proyecto 2 en el lado derecho */
+      .portal-split.right::before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 100%;
         background-image: url("img/kiosko.png");
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        position: relative;
+        left: 0;
+        opacity: 0.3;
+        pointer-events: none;
       }
 
-      /* BOTONES */
-      .interactive-button {
-        position: absolute;
-        width: 180px;
-        height: 180px;
+      /* Botón para volver al portal */
+      .back-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 1000;
+        border: 2px solid white;
+        font-weight: bold;
+        display: none;
+        transition: 0.3s;
+      }
+
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+      }
+
+      .back-btn.visible {
+        display: block;
+      }
+
+      /* PROYECTO 1 - Contenedor completo */
+      .proyecto1-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+        z-index: 50;
+      }
+
+      .proyecto1-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .proyecto1-content {
+        color: white;
+        text-align: center;
+        font-size: 2rem;
+      }
+
+      /* PROYECTO 2 - Contenedor completo */
+      .proyecto2-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+        z-index: 50;
+      }
+
+      .proyecto2-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* ESTILOS ESPECÍFICOS DEL PROYECTO 1 */
+      #p1-scene {
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 100px;
+      }
+
+      .p1-button {
+        width: 250px;
+        height: 250px;
         background: rgba(255, 255, 255, 0.15);
         border: 3px solid rgba(255, 255, 255, 0.3);
         border-radius: 20px;
@@ -63,34 +202,37 @@
         transition: 0.3s;
       }
 
-      .interactive-button:hover {
+      .p1-button:hover {
         transform: scale(1.05);
         background: rgba(255, 255, 255, 0.25);
       }
 
-      .button-icon {
-        font-size: 60px;
+      .p1-button-icon {
+        font-size: 80px;
+        margin-bottom: 15px;
       }
-      .button-title {
-        font-size: 18px;
+
+      .p1-button-title {
+        font-size: 22px;
         font-weight: 600;
       }
 
-      .btn-1 {
-        top: 50%;
-        left: 20%;
-      }
-      .btn-2 {
-        top: 30%;
-        right: 22%;
-      }
-      .btn-3 {
-        bottom: 15%;
-        left: 50%;
+      .p1-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+        z-index: 100;
       }
 
-      /* CARD */
-      .info-card {
+      .p1-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .p1-card {
         position: fixed;
         top: 50%;
         left: 50%;
@@ -103,31 +245,67 @@
         opacity: 0;
         visibility: hidden;
         transition: 0.3s;
-        z-index: 100;
+        z-index: 150;
       }
 
-      .info-card.active {
+      .p1-card.active {
         opacity: 1;
         visibility: visible;
         transform: translate(-50%, -50%) scale(1);
       }
 
-      .overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.6);
-        opacity: 0;
-        visibility: hidden;
-        transition: 0.3s;
-        z-index: 50;
+      .p1-carousel-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 20px;
       }
 
-      .overlay.active {
+      .p1-carousel {
+        display: flex;
+        transition: transform 0.35s ease-in-out;
+        gap: 20px;
+      }
+
+      .p1-carousel-item {
+        min-width: 340px;
+        max-width: 340px;
+        flex-shrink: 0;
+        background: white;
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+        border: 3px solid rgba(102, 126, 234, 0.5);
+        transition: all 0.3s;
+        opacity: 0.4;
+        transform: scale(1.0);
+      }
+
+      .p1-carousel-item.active {
         opacity: 1;
-        visibility: visible;
+        transform: scale(0.9);
+        border-color: rgba(102, 126, 234, 1);
       }
 
-      .card-btn {
+      .p1-carousel-item-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+      }
+
+      .p1-carousel-item-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 22px;
+        color: #667eea;
+      }
+
+      .p1-carousel-item-content {
+        font-size: 15px;
+        margin-bottom: 20px;
+        color: #555;
+      }
+
+      .p1-card-btn {
         padding: 12px 20px;
         border-radius: 10px;
         border: none;
@@ -138,63 +316,23 @@
         margin-bottom: 10px;
       }
 
-      .btn-youtube {
-        background: #d00;
+      .p1-btn-link {
+        background: #667eea;
       }
-      .btn-close {
+
+      .p1-btn-link:hover {
+        background: #5568d3;
+      }
+
+      .p1-btn-close {
         background: #555;
       }
 
-      .carousel-container {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        margin-bottom: 20px;
+      .p1-btn-close:hover {
+        background: #333;
       }
 
-      .carousel {
-        display: flex;
-        transition: transform 0.35s ease-in-out;
-        gap: 20px;
-      }
-
-      .carousel-item {
-        min-width: 340px;
-        max-width: 340px;
-        flex-shrink: 0;
-        background: white;
-        border-radius: 18px;
-        padding: 20px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
-        border: 3px solid rgba(255, 0, 150, 0.5);
-        transition: all 0.3s;
-        opacity: 0.4;
-        transform: scale(0.9);
-      }
-
-      .carousel-item.active {
-        opacity: 1;
-        transform: scale(1);
-        border-color: rgba(255, 0, 150, 1);
-      }
-
-      .carousel-item-icon {
-        font-size: 50px;
-        margin-bottom: 10px;
-      }
-
-      .carousel-item-title {
-        font-weight: bold;
-        margin-bottom: 10px;
-        font-size: 22px;
-      }
-
-      .carousel-item-content {
-        font-size: 15px;
-        margin-bottom: 20px;
-      }
-
-      .nav-btn {
+      .p1-nav-btn {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -205,93 +343,433 @@
         cursor: pointer;
         padding: 8px 12px;
         border-radius: 10px;
-        z-index: 120;
+        z-index: 160;
         transition: 0.2s;
       }
 
-      .nav-btn:hover {
+      .p1-nav-btn:hover:not(:disabled) {
         background: rgba(0, 0, 0, 0.7);
       }
 
-      .nav-btn:disabled {
+      .p1-nav-btn:disabled {
         opacity: 0.3;
         cursor: not-allowed;
       }
 
-      #prevBtn {
+      .p1-prev-btn {
         left: -10px;
       }
-      #nextBtn {
+      .p1-next-btn {
         right: -10px;
       }
-      /* Tarjetas de equipo */
-      .carousel-item.team {
+
+      /* ESTILOS ESPECÍFICOS DEL PROYECTO 2 */
+      #p2-scene {
+        width: 100vw;
+        height: 100vh;
+        background-image: url("img/kiosko.png");
+        background-size: 80%;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+      }
+
+      .p2-button {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: rgba(233, 3, 3, 0.7);
+        border: 3px solid rgba(241, 233, 233, 0.937);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .p2-button:hover {
+        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .p2-button-icon {
+        font-size: 60px;
+      }
+
+      .p2-button-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .p2-btn-1 {
+        top: 70%;
+        left: 19%;
+        width: 250px;
+        height: 160px;
+      }
+      .p2-btn-3 {
+        top: 70%;
+        left: 42%;
+        width: 250px;
+        height: 160px;
+      }
+      .p2-btn-2 {
+        top: 70%;
+        left: 65%;
+        width: 250px; 
+        height: 160px;
+      }
+
+      .p2-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+        z-index: 100;
+      }
+
+      .p2-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .p2-card {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        background: white;
+        border-radius: 25px;
+        padding: 40px;
+        width: 90%;
+        max-width: 500px;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+        z-index: 150;
+      }
+
+      .p2-card.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .p2-carousel-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .p2-carousel {
+        display: flex;
+        transition: transform 0.35s ease-in-out;
+        gap: 20px;
+      }
+
+      .p2-carousel-item {
+        min-width: 340px;
+        max-width: 340px;
+        flex-shrink: 0;
+        background: white;
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+        border: 3px solid rgba(255, 0, 150, 1);
+        transition: all 0.3s;
+        opacity: 0.4;
+        transform: scale(1);
+      }
+
+      .p2-carousel-item.active {
+        opacity: 1;
+        transform: scale(1);
+        border-color: rgba(255, 0, 150, 1);
+      }
+
+      .p2-carousel-item-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+      }
+
+      .p2-carousel-item-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 22px;
+      }
+
+      .p2-carousel-item-content {
+        font-size: 15px;
+        margin-bottom: 20px;
+      }
+
+      .p2-carousel-item.team {
         background: linear-gradient(
-          180deg,
+          180deg,   
           rgba(255, 255, 255, 0.95),
           rgba(245, 245, 245, 0.9)
         );
-        border: 2px solid rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(231, 11, 11, 0.6);
         color: #222;
         padding: 15px;
       }
 
-      .carousel-item.team .team-photo {
-        width: 90px; /* más pequeño */
-        height: 90px; /* cuadrado y compacto */
-        border-radius: 50%; /* redondo */
-        object-fit: cover; /* recorta sin deformar */
-        margin: 0 auto 10px; /* centrado */
+      .p2-team-photo {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 10px;
         display: block;
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
       }
 
-      .carousel-item.team .carousel-item-title {
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 5px;
+      .p2-card-btn {
+        padding: 12px 20px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 10px;
       }
 
-      .carousel-item.team .carousel-item-content {
-        font-size: 0.85rem;
-        opacity: 0.8;
+      .p2-btn-youtube {
+        background: #d00;
+      }
+
+      .p2-btn-close {
+        background: #555;
+      }
+
+      .p2-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: rgba(0, 0, 0, 0.45);
+        color: white;
+        font-size: 25px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 10px;
+        z-index: 160;
+        transition: 0.2s;
+      }
+
+      .p2-nav-btn:hover:not(:disabled) {
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .p2-nav-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .p2-prev-btn {
+        left: -10px;
+      }
+      .p2-next-btn {
+        right: -10px;
       }
     </style>
   </head>
 
   <body>
-    <div id="scene">
-      <div class="interactive-button btn-1" data-id="info1">
-        <div class="button-icon">🎨</div>
-        <div class="button-title">Diseño</div>
+    <!-- Botón de retorno -->
+    <div class="back-btn" id="backBtn">←</div>
+
+    <!-- Portal inicial (división 50/50) -->
+    <div class="portal-container" id="portal">
+      <div class="portal-split left" id="portalLeft">
+        <div class="portal-title">
+          Proyecto ✨<br /><small>Click para entrar</small>
+        </div>
       </div>
 
-      <div class="interactive-button btn-2" data-id="info2">
-        <div class="button-icon">💻</div>
-        <div class="button-title">Pruebas</div>
-      </div>
-
-      <div class="interactive-button btn-3" data-id="info3">
-        <div class="button-icon">🎮</div>
-        <div class="button-title">Equipo</div>
+      <div class="portal-split right" id="portalRight">
+        <div class="portal-title">
+          Videojuego 🎮<br /><small>Click para entrar</small>
+        </div>
       </div>
     </div>
 
-    <div class="overlay" id="overlay"></div>
+    <!-- PROYECTO 1 (Pantalla completa cuando se selecciona) -->
+    <div class="proyecto1-container" id="proyecto1">
+      <div id="p1-scene">
+        <div class="p1-button" data-id="documentos">
+          <div class="p1-button-icon">📄</div>
+          <div class="p1-button-title">Documentos</div>
+        </div>
 
-    <div class="info-card" id="infoCard">
-      <button id="prevBtn" class="nav-btn">◀</button>
-
-      <div class="carousel-container">
-        <div id="carousel" class="carousel"></div>
+        <div class="p1-button" data-id="entrevistas">
+          <div class="p1-button-icon">🎤</div>
+          <div class="p1-button-title">Entrevistas</div>
+        </div>
       </div>
 
-      <button id="nextBtn" class="nav-btn">▶</button>
+      <div class="p1-overlay" id="p1Overlay"></div>
 
-      <button class="card-btn btn-close" id="closeBtn">Volver</button>
+      <div class="p1-card" id="p1Card">
+        <button id="p1PrevBtn" class="p1-nav-btn p1-prev-btn">◀</button>
+
+        <div class="p1-carousel-container">
+          <div id="p1Carousel" class="p1-carousel"></div>
+        </div>
+
+        <button id="p1NextBtn" class="p1-nav-btn p1-next-btn">▶</button>
+
+        <button class="p1-card-btn p1-btn-close" id="p1CloseBtn">Volver</button>
+      </div>
+    </div>
+
+    <!-- PROYECTO 2 (Pantalla completa cuando se selecciona) -->
+    <div class="proyecto2-container" id="proyecto2">
+      <div id="p2-scene">
+        <div class="p2-button p2-btn-1" data-id="info1">
+          <div class="p2-button-icon">🎨</div>
+          <div class="p2-button-title">Diseño</div>
+        </div>
+
+        <div class="p2-button p2-btn-2" data-id="info2">
+          <div class="p2-button-icon">💻</div>
+          <div class="p2-button-title">Pruebas</div>
+        </div>
+
+        <div class="p2-button p2-btn-3" data-id="info3">
+          <div class="p2-button-icon">🎮</div>
+          <div class="p2-button-title">Equipo</div>
+        </div>
+      </div>
+
+      <div class="p2-overlay" id="p2Overlay"></div>
+
+      <div class="p2-card" id="p2Card">
+        <button id="p2PrevBtn" class="p2-nav-btn p2-prev-btn">◀</button>
+
+        <div class="p2-carousel-container">
+          <div id="p2Carousel" class="p2-carousel"></div>
+        </div>
+
+        <button id="p2NextBtn" class="p2-nav-btn p2-next-btn">▶</button>
+
+        <button class="p2-card-btn p2-btn-close" id="p2CloseBtn">Volver</button>
+      </div>
     </div>
 
     <script>
+      // Data del Proyecto 1
+      const dataP1 = {
+        documentos: [
+          {
+            icon: "📝",
+            title: "Propuesta",
+            content: "Documento con la propuesta inicial del proyecto.",
+            url: "https://tu-enlace-propuesta.com",
+          },
+          {
+            icon: "🔍",
+            title: "Needfinding",
+            content: "Análisis de necesidades y requisitos del usuario.",
+            url: "https://tu-enlace-needfinding.com",
+          },
+        ],
+        entrevistas: [
+          {
+            icon: "🎤",
+            title: "Entrevistas",
+            content: "Registro completo de entrevistas realizadas.",
+            url: "https://photos.app.goo.gl/uoYqZeHoMqr2nNaN9",
+          },
+        ],
+      };
+
+      // Lógica del Proyecto 1
+      const overlayP1 = document.getElementById("p1Overlay");
+      const cardP1 = document.getElementById("p1Card");
+      const carouselP1 = document.getElementById("p1Carousel");
+      const prevBtnP1 = document.getElementById("p1PrevBtn");
+      const nextBtnP1 = document.getElementById("p1NextBtn");
+
+      let currentIndexP1 = 0;
+
+      document.querySelectorAll(".p1-button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const items = dataP1[btn.dataset.id];
+          carouselP1.innerHTML = "";
+          currentIndexP1 = 0;
+
+          items.forEach((item) => {
+            carouselP1.innerHTML += `
+        <div class="p1-carousel-item">
+          <div class="p1-carousel-item-icon">${item.icon}</div>
+          <div class="p1-carousel-item-title">${item.title}</div>
+          <div class="p1-carousel-item-content">${item.content}</div>
+          <button class="p1-card-btn p1-btn-link" onclick="window.open('${item.url}', '_blank')">Ver documento</button>
+        </div>`;
+          });
+
+          moveCarouselP1();
+          overlayP1.classList.add("active");
+          cardP1.classList.add("active");
+        });
+      });
+
+      function moveCarouselP1() {
+        const container = carouselP1.parentElement;
+        const cardWidth = 340;
+        const gap = 20;
+        const containerWidth = container.offsetWidth;
+        const centerOffset = (containerWidth - cardWidth) / 2;
+        const translateX = -(currentIndexP1 * (cardWidth + gap)) + centerOffset;
+        carouselP1.style.transform = `translateX(${translateX}px)`;
+        updateActiveCardP1();
+        updateButtonsP1();
+      }
+
+      function updateActiveCardP1() {
+        [...carouselP1.children].forEach((item, i) =>
+          item.classList.toggle("active", i === currentIndexP1)
+        );
+      }
+
+      function updateButtonsP1() {
+        prevBtnP1.disabled = currentIndexP1 === 0;
+        nextBtnP1.disabled = currentIndexP1 === carouselP1.children.length - 1;
+      }
+
+      prevBtnP1.onclick = () => {
+        if (currentIndexP1 > 0) {
+          currentIndexP1--;
+          moveCarouselP1();
+        }
+      };
+
+      nextBtnP1.onclick = () => {
+        if (currentIndexP1 < carouselP1.children.length - 1) {
+          currentIndexP1++;
+          moveCarouselP1();
+        }
+      };
+
+      function closeCardP1() {
+        overlayP1.classList.remove("active");
+        cardP1.classList.remove("active");
+      }
+
+      document
+        .getElementById("p1CloseBtn")
+        .addEventListener("click", closeCardP1);
+      overlayP1.addEventListener("click", closeCardP1);
+      // Data del Proyecto 2
       const data = {
         info1: [
           {
@@ -370,40 +848,67 @@
         ],
       };
 
-      const overlay = document.getElementById("overlay");
-      const card = document.getElementById("infoCard");
-      const carousel = document.getElementById("carousel");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
+      // Referencias del DOM
+      const portal = document.getElementById("portal");
+      const portalLeft = document.getElementById("portalLeft");
+      const portalRight = document.getElementById("portalRight");
+      const proyecto1 = document.getElementById("proyecto1");
+      const proyecto2 = document.getElementById("proyecto2");
+      const backBtn = document.getElementById("backBtn");
+
+      // Navegación del portal
+      portalLeft.addEventListener("click", () => {
+        portal.classList.add("hidden");
+        proyecto1.classList.add("active");
+        backBtn.classList.add("visible");
+      });
+
+      portalRight.addEventListener("click", () => {
+        portal.classList.add("hidden");
+        proyecto2.classList.add("active");
+        backBtn.classList.add("visible");
+      });
+
+      backBtn.addEventListener("click", () => {
+        portal.classList.remove("hidden");
+        proyecto1.classList.remove("active");
+        proyecto2.classList.remove("active");
+        backBtn.classList.remove("visible");
+      });
+
+      // Lógica del Proyecto 2
+      const overlay = document.getElementById("p2Overlay");
+      const card = document.getElementById("p2Card");
+      const carousel = document.getElementById("p2Carousel");
+      const prevBtn = document.getElementById("p2PrevBtn");
+      const nextBtn = document.getElementById("p2NextBtn");
 
       let currentIndex = 0;
 
-      document.querySelectorAll(".interactive-button").forEach((btn) => {
+      document.querySelectorAll(".p2-button").forEach((btn) => {
         btn.addEventListener("click", () => {
           const items = data[btn.dataset.id];
-          carousel.innerHTML = "";  
+          carousel.innerHTML = "";
           currentIndex = 0;
 
-          // Si el botón es info3 (equipo)
           if (btn.dataset.id === "info3") {
             items.forEach((member) => {
               carousel.innerHTML += `
-            <div class="carousel-item team">
-              <img src="${member.photo}" alt="${member.name}" class="team-photo" />
-              <div class="carousel-item-title">${member.name}</div>
-              <div class="carousel-item-content">${member.role}</div>
-            </div>`;
+              <div class="p2-carousel-item team">
+                <img src="${member.photo}" alt="${member.name}" class="p2-team-photo" />
+                <div class="p2-carousel-item-title">${member.name}</div>
+                <div class="p2-carousel-item-content">${member.role}</div>
+              </div>`;
             });
           } else {
-            // Para los demás botones
             items.forEach((item) => {
               carousel.innerHTML += `
-            <div class="carousel-item">
-              <div class="carousel-item-icon">${item.icon}</div>
-              <div class="carousel-item-title">${item.title}</div>
-              <div class="carousel-item-content">${item.content}</div>
-              <button class="card-btn btn-youtube" onclick="window.open('${item.url}', '_blank')">Ver en YouTube</button>
-            </div>`;
+              <div class="p2-carousel-item">
+                <div class="p2-carousel-item-icon">${item.icon}</div>
+                <div class="p2-carousel-item-title">${item.title}</div>
+                <div class="p2-carousel-item-content">${item.content}</div>
+                <button class="p2-card-btn p2-btn-youtube" onclick="window.open('${item.url}', '_blank')">Ver más</button>
+              </div>`;
             });
           }
 
@@ -455,7 +960,9 @@
         card.classList.remove("active");
       }
 
-      document.getElementById("closeBtn").addEventListener("click", closeCard);
+      document
+        .getElementById("p2CloseBtn")
+        .addEventListener("click", closeCard);
       overlay.addEventListener("click", closeCard);
     </script>
   </body>
