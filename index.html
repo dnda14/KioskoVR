@@ -12,14 +12,18 @@
       }
 
       :root {
-        --color-primary: #8b4513;    /* Marrón principal */
-        --color-secondary: #eec809;   /* Amarillo/dorado */
-        --color-accent: #e8e06a;      /* Azul oscuro */
+        --color-primary: #8b4513; /* Marrón principal */
+        --color-secondary: #eec809; /* Amarillo/dorado */
+        --color-accent: #e8e06a; /* Azul oscuro */
       }
 
       body {
         font-family: "Georgia", serif;
-        background: linear-gradient(135deg, var(--color-accent) 0%, #2d2d44 100%);
+        background: linear-gradient(
+          135deg,
+          var(--color-accent) 0%,
+          #2d2d44 100%
+        );
         min-height: 100vh;
         color: #333;
       }
@@ -116,7 +120,11 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, var(--color-primary) 0%, #654321 100%);
+        background: linear-gradient(
+          135deg,
+          var(--color-primary) 0%,
+          #654321 100%
+        );
         border: 3px solid #3d2817;
         border-radius: 0 8px 8px 0;
         box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.4),
@@ -152,8 +160,7 @@
         max-height: 160px;
         width: auto;
         height: auto;
-        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4)) 
-                brightness(1.1);
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4)) brightness(1.1);
         object-fit: contain;
         display: block;
       }
@@ -397,14 +404,14 @@
         font-weight: bold;
         margin-top: 15px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
 
       .resource-btn:hover {
         background: var(--color-secondary);
         color: var(--color-primary);
         transform: scale(1.1);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       }
 
       /* Estilos para el modal del equipo */
@@ -422,7 +429,7 @@
         border: 2px solid #d4c5a9;
         transition: all 0.3s;
         text-align: center;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .team-card:hover {
@@ -438,7 +445,7 @@
         object-fit: cover;
         margin: 0 auto 20px;
         border: 4px solid var(--color-secondary);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       }
 
       .team-name {
@@ -503,34 +510,39 @@
         }
       }
       .book-more-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-secondary);
-  color: var(--color-primary);
-  text-decoration: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  font-size: 1.8em;
-  font-weight: bold;
-  margin-top: 10px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-secondary);
+        color: var(--color-primary);
+        text-decoration: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 1.8em;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
 
-.book-more-btn:hover {
-  background: var(--color-primary);
-  color: #f0e6d2;
-  transform: scale(1.1);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
-}
+      .book-more-btn:hover {
+        background: var(--color-primary);
+        color: #f0e6d2;
+        transform: scale(1.1);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      }
     </style>
   </head>
   <body>
     <div class="logo-container">
       <div class="logo-left">
-        <img src="img/logo.png" alt="Logo del Equipo" class="logo-image" onerror="this.style.display='none'">
+        <img
+          src="img/logo.png"
+          alt="Logo del Equipo"
+          class="logo-image"
+          onerror="this.style.display='none'"
+        />
         <div class="logo-text">
           <div class="logo">🏛️ GitSensei</div>
         </div>
@@ -591,7 +603,8 @@
             <h2 class="section-title">Contexto del Proyecto</h2>
             <div class="section-content">
               <p>
-                Videojuego inmersivo en realidad virtual, se enfoca en la atencion en un kiosko.
+                Videojuego inmersivo en realidad virtual, se enfoca en la
+                atencion en un kiosko.
               </p>
             </div>
           </div>
@@ -614,7 +627,12 @@
                 <div class="resource-desc">
                   Primeros sketches y conceptos visuales del proyecto.
                 </div>
-                <a href="https://tu-enlace.com/boceto" target="_blank" class="resource-btn">+</a>
+                <a
+                  href="https://tu-enlace.com/boceto"
+                  target="_blank"
+                  class="resource-btn"
+                  >+</a
+                >
               </div>
               <div class="resource-card">
                 <div class="resource-title">🏗️ Diseño de Maqueta</div>
@@ -630,9 +648,7 @@
               </div>
               <div class="resource-card">
                 <div class="resource-title">🥽 Entorno VR</div>
-                <div class="resource-desc">
-                  Desarrollo del entorno VR.
-                </div>
+                <div class="resource-desc">Desarrollo del entorno VR.</div>
               </div>
             </div>
           </div>
@@ -686,16 +702,15 @@
             <h2 class="section-title">Contexto del Proyecto</h2>
             <div class="section-content">
               <p>
-                REalizacion de un proyecto relacionado a repositorios de software.
+                REalizacion de un proyecto relacionado a repositorios de
+                software.
               </p>
             </div>
           </div>
           <div class="section">
             <h2 class="section-title">Idea Principal</h2>
             <div class="section-content">
-              <p>
-                Implementar un entorno usable.
-              </p>
+              <p>Implementar un entorno usable.</p>
             </div>
           </div>
         </div>
@@ -707,16 +722,25 @@
               <div class="resource-card">
                 <div class="resource-title">📐 Needfinding</div>
                 <div class="resource-desc">
-                  Documento que almacena resultados de las intervenciones a usuarios.
+                  Documento que almacena resultados de las intervenciones a
+                  usuarios.
                 </div>
-                <a href="https://docs.google.com/presentation/d/1AG2MPNqSts30Id72IxYj8CjTKoABIifwFJfELoEjM44/edit?slide=id.p#slide=id.p" target="_blank" class="resource-btn">+</a>
+                <a
+                  href="https://docs.google.com/presentation/d/1AG2MPNqSts30Id72IxYj8CjTKoABIifwFJfELoEjM44/edit?slide=id.p#slide=id.p"
+                  target="_blank"
+                  class="resource-btn"
+                  >+</a
+                >
               </div>
               <div class="resource-card">
                 <div class="resource-title">📷 Grabaciones</div>
-                <div class="resource-desc">
-                  Observaciones en usuarios.
-                </div>
-                <a href="https://photos.app.goo.gl/uoYqZeHoMqr2nNaN9" target="_blank" class="resource-btn">+</a>
+                <div class="resource-desc">Observaciones en usuarios.</div>
+                <a
+                  href="https://photos.app.goo.gl/uoYqZeHoMqr2nNaN9"
+                  target="_blank"
+                  class="resource-btn"
+                  >+</a
+                >
               </div>
             </div>
           </div>
@@ -733,33 +757,58 @@
         <div class="section">
           <div class="team-grid">
             <div class="team-card">
-              <img src="img/integrante1.jpg" alt="Integrante 1" class="team-photo" onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=1'">
-              <div class="team-name">Nombre Integrante 1</div>
-              <div class="team-role">Rol o Especialidad</div>
+              <img
+                src="img/foto_ar.jpeg"
+                alt="Arleen Ferro Vasquez"
+                class="team-photo"
+                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=A'"
+              />
+              <div class="team-name">Arleen Ferro Vasquez</div>
+              <div class="team-role"></div>
             </div>
 
             <div class="team-card">
-              <img src="img/integrante2.jpg" alt="Integrante 2" class="team-photo" onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=2'">
-              <div class="team-name">Nombre Integrante 2</div>
-              <div class="team-role">Rol o Especialidad</div>
+              <img
+                src="img/foto_wil.jpeg"
+                alt="Wilson Mamani Casilla"
+                class="team-photo"
+                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=W'"
+              />
+              <div class="team-name">Wilson Mamani Casilla</div>
+              <div class="team-role"></div>
             </div>
 
             <div class="team-card">
-              <img src="img/integrante3.jpg" alt="Integrante 3" class="team-photo" onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=3'">
-              <div class="team-name">Nombre Integrante 3</div>
-              <div class="team-role">Rol o Especialidad</div>
+              <img
+                src="img/foto_jaz.jpeg"
+                alt="Jazmin Perez Villasante"
+                class="team-photo"
+                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=J'"
+              />
+              <div class="team-name">Jazmin Perez Villasante</div>
+              <div class="team-role"></div>
             </div>
 
             <div class="team-card">
-              <img src="img/integrante4.jpg" alt="Integrante 4" class="team-photo" onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=4'">
-              <div class="team-name">Nombre Integrante 4</div>
-              <div class="team-role">Rol o Especialidad</div>
+              <img
+                src="img/foto_edil.jpeg"
+                alt="Edilson Mamani Yucra"
+                class="team-photo"
+                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=E'"
+              />
+              <div class="team-name">Edilson Mamani Yucra</div>
+              <div class="team-role"></div>
             </div>
 
             <div class="team-card">
-              <img src="img/integrante5.jpg" alt="Integrante 5" class="team-photo" onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=5'">
-              <div class="team-name">Nombre Integrante 5</div>
-              <div class="team-role">Rol o Especialidad</div>
+              <img
+                src="img/foto_cri.jpeg"
+                alt="Cristhian Huanca Olazabal"
+                class="team-photo"
+                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=C'"
+              />
+              <div class="team-name">Cristhian Huanca Olazabal</div>
+              <div class="team-role"></div>
             </div>
           </div>
         </div>
@@ -768,19 +817,19 @@
 
     <script>
       function openBook(projectId) {
-        document.getElementById('modalBackdrop').classList.add('active');
-        document.getElementById(projectId).classList.add('active');
-        document.body.style.overflow = 'hidden';
+        document.getElementById("modalBackdrop").classList.add("active");
+        document.getElementById(projectId).classList.add("active");
+        document.body.style.overflow = "hidden";
       }
 
       function closeBook(projectId) {
-        document.getElementById('modalBackdrop').classList.remove('active');
-        document.getElementById(projectId).classList.remove('active');
-        document.body.style.overflow = 'auto';
+        document.getElementById("modalBackdrop").classList.remove("active");
+        document.getElementById(projectId).classList.remove("active");
+        document.body.style.overflow = "auto";
       }
 
       function showTab(project, tabName) {
-        const prefix = project + '-';
+        const prefix = project + "-";
         const tabs = document.querySelectorAll(
           `#${project === "p1" ? "proyecto1" : "proyecto2"} .tab`
         );
@@ -788,30 +837,32 @@
           `#${project === "p1" ? "proyecto1" : "proyecto2"} .tab-content`
         );
 
-        tabs.forEach((tab) => tab.classList.remove('active'));
-        contents.forEach((content) => content.classList.remove('active'));
+        tabs.forEach((tab) => tab.classList.remove("active"));
+        contents.forEach((content) => content.classList.remove("active"));
 
-        event.target.classList.add('active');
-        document.getElementById(prefix + tabName).classList.add('active');
+        event.target.classList.add("active");
+        document.getElementById(prefix + tabName).classList.add("active");
       }
 
       // Cerrar modal al presionar ESC o hacer clic en el backdrop
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
           closeAllModals();
         }
       });
 
-      document.getElementById('modalBackdrop').addEventListener('click', function() {
-        closeAllModals();
-      });
+      document
+        .getElementById("modalBackdrop")
+        .addEventListener("click", function () {
+          closeAllModals();
+        });
 
       function closeAllModals() {
-        document.querySelectorAll('.modal').forEach((modal) => {
-          modal.classList.remove('active');
+        document.querySelectorAll(".modal").forEach((modal) => {
+          modal.classList.remove("active");
         });
-        document.getElementById('modalBackdrop').classList.remove('active');
-        document.body.style.overflow = 'auto';
+        document.getElementById("modalBackdrop").classList.remove("active");
+        document.body.style.overflow = "auto";
       }
     </script>
   </body>
