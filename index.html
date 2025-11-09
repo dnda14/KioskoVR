@@ -56,11 +56,24 @@
       }
 
       .logo {
-        font-size: 1.8em;
+        font-size: 3.5em;
         font-weight: bold;
         color: var(--color-texto);
+        text-shadow: 
+    -1px -1px 0 #000, /* Arriba a la izquierda */
+     1px -1px 0 #000, /* Arriba a la derecha */
+    -1px  1px 0 #000, /* Abajo a la izquierda */
+     1px  1px 0 #000; /* Abajo a la derecha */
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         letter-spacing: 2px;
+      }
+      .color-sensei {
+        color: var(--color-accent);
+        text-shadow: 
+    -1px -1px 0 #000, /* Arriba a la izquierda */
+     1px -1px 0 #000, /* Arriba a la derecha */
+    -1px  1px 0 #000, /* Abajo a la izquierda */
+     1px  1px 0 #000; /* Abajo a la derecha */
       }
 
       .subtitle {
@@ -550,10 +563,10 @@
           class="logo-image"
           onerror="this.style.display='none'"
         />
-        <div class="logo-text">
-          <div class="logo"> GitSensei</div>
-        </div>
       </div>
+      <div class="logo-text">
+    <div class="logo"> Git<span class="color-sensei">Sensei</span></div>
+</div>
       <button class="team-btn" onclick="openBook('team')">
         <span>👥</span>
         <span>Nosotros</span>
