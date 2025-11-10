@@ -11,23 +11,35 @@
         box-sizing: border-box;
       }
 
-:root {
-  --color-primary: #DACE73;  /* gris perla */
-  --color-secondary: #ffffff; /* blanco puro */
-  --color-accent: #a7c7e7;   /* azul pastel frío */
-  --color-texto: #333333;    /* gris oscuro para texto */
-}
-
-
-
+      :root {
+        --color-primary: #dace73;
+        --color-secondary: #ffffff;
+        --color-accent: #a7c7e7;
+        --color-texto: #333333;
+        --folder-front: #f5c249;
+        --folder-back: #e0a83c;
+        --folder-inner: #fff5d6;
+        --shadow: rgba(0,0,0,0.2);
+      }
 
       body {
         font-family: "Georgia", serif;
-        background:var(--color-accent);
+        background: var(--color-accent);
         min-height: 100vh;
         color: #333;
       }
-
+      .scene,
+.folder,
+.team-btn,
+.open-book-btn,
+.close-btn,
+.tab,
+.resource-btn,
+.book-more-btn,
+button:not(:disabled),
+a {
+  cursor: url("img/mano_cursor_default.png") 0 0, pointer !important;
+}
       .logo-container {
         display: flex;
         justify-content: space-between;
@@ -59,21 +71,13 @@
         font-size: 3.5em;
         font-weight: bold;
         color: var(--color-texto);
-        text-shadow: 
-    -1px -1px 0 #000, /* Arriba a la izquierda */
-     1px -1px 0 #000, /* Arriba a la derecha */
-    -1px  1px 0 #000, /* Abajo a la izquierda */
-     1px  1px 0 #000; /* Abajo a la derecha */
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         letter-spacing: 2px;
       }
+
       .color-sensei {
         color: var(--color-accent);
-        text-shadow: 
-    -1px -1px 0 #000, /* Arriba a la izquierda */
-     1px -1px 0 #000, /* Arriba a la derecha */
-    -1px  1px 0 #000, /* Abajo a la izquierda */
-     1px  1px 0 #000; /* Abajo a la derecha */
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
       }
 
       .subtitle {
@@ -107,109 +111,96 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 60px;
+        gap: 100px;
         padding: 80px 20px;
         flex-wrap: wrap;
         perspective: 1500px;
       }
 
-      .book {
-        width: 280px;
-        height: 380px;
-        position: relative;
-        transform-style: preserve-3d;
-        transition: transform 0.6s;
-        cursor: pointer;
-      }
-
-      .book:hover {
-        transform: rotateY(-15deg) translateY(-10px);
-      }
-
-      .book-cover {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background:var(--color-primary);
-        border: 3px solid #3d2817;
-        border-radius: 0 8px 8px 0;
-        box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.4),
-          inset 2px 0 10px rgba(255, 255, 255, 0.1);
-        padding: 10px;
+      /* Estilos de Folders */
+      .folder-container {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         align-items: center;
+        gap: 20px;
       }
 
-      .book-spine {
-        position: absolute;
-        left: -15px;
-        width: 15px;
-        height: 100%;
-        background: linear-gradient(90deg, #3d2817 0%, #654321 100%);
-        border-radius: 8px 0 0 8px;
-        box-shadow: -3px 0 10px rgba(0, 0, 0, 0.5);
-      }
-
-      .book-icon {
-        margin-bottom: 0px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 190px;
-        width: 100%;
-      }
-
-      .book-icon img {
-        max-width: 160px;
-        max-height: 160px;
-        width: auto;
-        height: auto;
-        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4)) brightness(1.1);
-        object-fit: contain;
-        display: block;
-      }
-
-      .book-title {
-        font-size: 1.6em;
-        font-weight: bold;
-        text-align: center;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        margin-bottom: 15px;
-      }
-
-      .book-number {
-        font-size: 3.5em;
-        color: var(--color-texto);
-        font-weight: bold;
-      }
-
-      .book-description {
-        color: var(--color-texto);
-        text-align: center;
-        font-size: 0.9em;
-        line-height: 1.4;
-      }
-
-      .open-book-btn {
-        background: var(--color-secondary);
-        color: var(--color-primary);
-        border: none;
-        padding: 12px 25px;
-        border-radius: 5px;
+      .scene {
+        width: 280px;
+        height: 336px;
+        perspective: 800px;
         cursor: pointer;
-        font-size: 1em;
-        font-weight: bold;
-        transition: all 0.3s;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
       }
 
-      .open-book-btn:hover {
-        background: #f8e156;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      .folder {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease;
       }
+
+      .scene:hover .folder {
+        transform: translateY(-10px);
+      }
+
+      .back, .front {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        backface-visibility: hidden;
+        box-shadow: 0 8px 25px var(--shadow);
+        transform-origin: left center;
+      }
+
+      .back {
+        background: linear-gradient(180deg, var(--folder-back), #d6962f);
+        z-index: 1;
+      }
+
+      .front {
+        background: linear-gradient(180deg, var(--folder-front), #f0b93a);
+        transform: rotateY(0deg);
+        transition: transform 0.6s ease;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        color: #684b11;
+        font-weight: 700;
+      }
+
+      .scene:hover .front {
+        transform: rotateY(-25deg);
+      }
+
+      .inner {
+        position: absolute;
+        inset: 16px;
+        background: var(--folder-inner);
+        border-radius: 8px;
+        box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.15);
+        z-index: 0;
+      }
+
+      .folder-icon {
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+      }
+
+      .folder-title {
+        font-size: 2.5em;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+
 
       .modal-backdrop {
         display: none;
@@ -275,11 +266,7 @@
       .content-title {
         font-size: 2.5em;
         color: var(--color-primary);
-        text-shadow: 
-    -1px -1px 0 #000, /* Arriba a la izquierda */
-     1px -1px 0 #000, /* Arriba a la derecha */
-    -1px  1px 0 #000, /* Abajo a la izquierda */
-     1px  1px 0 #000; /* Abajo a la derecha */
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         margin-bottom: 30px;
         text-align: center;
         border-bottom: 3px solid var(--color-primary);
@@ -305,11 +292,7 @@
         font-size: 1em;
         transition: all 0.3s;
         color: var(--color-primary);
-        text-shadow: 
-    -1px -1px 0 #000, /* Arriba a la izquierda */
-     1px -1px 0 #000, /* Arriba a la derecha */
-    -1px  1px 0 #000, /* Abajo a la izquierda */
-     1px  1px 0 #000; /* Abajo a la derecha */
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         font-weight: bold;
         margin-right: -2px;
         position: relative;
@@ -381,7 +364,7 @@
       }
 
       .resource-card {
-        background:var(--color-accent);
+        background: var(--color-accent);
         padding: 20px;
         border-radius: 8px;
         border: 2px solid #d4c5a9;
@@ -396,11 +379,7 @@
       .resource-title {
         font-weight: bold;
         color: var(--color-primary);
-        text-shadow: 
-    -1px -1px 0 #000, /* Arriba a la izquierda */
-     1px -1px 0 #000, /* Arriba a la derecha */
-    -1px  1px 0 #000, /* Abajo a la izquierda */
-     1px  1px 0 #000; /* Abajo a la derecha */
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         margin-bottom: 10px;
         font-size: 1.1em;
       }
@@ -434,7 +413,6 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       }
 
-      /* Estilos para el modal del equipo */
       .team-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -443,7 +421,7 @@
       }
 
       .team-card {
-        background:var(--color-secondary);
+        background: var(--color-secondary);
         padding: 25px;
         border-radius: 12px;
         border: 2px solid #d4c5a9;
@@ -507,14 +485,14 @@
           padding: 40px 20px;
         }
 
-        .book {
+        .scene {
           width: 240px;
-          height: 340px;
+          height: 288px;
         }
 
-        .book-icon img {
-          max-width: 70px;
-          max-height: 70px;
+        .folder-icon {
+          width: 80px;
+          height: 80px;
         }
 
         .book-content {
@@ -529,29 +507,6 @@
           grid-template-columns: 1fr;
         }
       }
-      .book-more-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--color-secondary);
-        color: var(--color-primary);
-        text-decoration: none;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        font-size: 1.8em;
-        font-weight: bold;
-        margin-top: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-
-      .book-more-btn:hover {
-        background: var(--color-primary);
-        color: #f0e6d2;
-        transform: scale(1.1);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
-      }
     </style>
   </head>
   <body>
@@ -565,8 +520,8 @@
         />
       </div>
       <div class="logo-text">
-    <div class="logo"> Git<span class="color-sensei">Sensei</span></div>
-</div>
+        <div class="logo">Git<span class="color-sensei">Sensei</span></div>
+      </div>
       <button class="team-btn" onclick="openBook('team')">
         <span>👥</span>
         <span>Nosotros</span>
@@ -574,30 +529,34 @@
     </div>
 
     <div class="library">
-      <div class="book" onclick="openBook('proyecto1')">
-        <div class="book-spine"></div>
-        <div class="book-cover">
-          <div class="book-icon">
-            <img src="img/boton2.png" alt="Icono Proyecto 1" />
+      <div class="folder-container">
+        <div class="scene" onclick="openBook('proyecto1')">
+          <div class="folder">
+            <div class="inner"></div>
+            <div class="back"></div>
+            <div class="front">
+              <img src="img/boton2.png" alt="Icono Proyecto 1" class="folder-icon" onerror="this.style.display='none'" />
+              <div class="folder-title">Videojuego VR</div>
+            </div>
           </div>
-          <div class="book-number">01</div>
-          <a href="#" class="book-more-btn">+</a>
         </div>
       </div>
 
-      <div class="book" onclick="openBook('proyecto2')">
-        <div class="book-spine"></div>
-        <div class="book-cover">
-          <div class="book-icon">
-            <img src="img/boton1.png" alt="Icono Proyecto 2" />
+      <div class="folder-container">
+        <div class="scene" onclick="openBook('proyecto2')">
+          <div class="folder">
+            <div class="inner"></div>
+            <div class="back"></div>
+            <div class="front">
+              <img src="img/boton1.png" alt="Icono Proyecto 2" class="folder-icon" onerror="this.style.display='none'" />
+              <div class="folder-title">Proyecto</div>
+            </div>
           </div>
-          <div class="book-number">02</div>
-          <a href="#" class="book-more-btn">+</a>
         </div>
+        
       </div>
     </div>
 
-    <!-- Capa oscura para enfoque -->
     <div class="modal-backdrop" id="modalBackdrop"></div>
 
     <!-- Modal Proyecto 1 -->
@@ -653,7 +612,6 @@
                   class="resource-btn"
                   >+</a
                 >
-                
               </div>
               <div class="resource-card">
                 <div class="resource-title">🏗️ Diseño de Maqueta</div>
@@ -688,7 +646,7 @@
                   class="resource-btn"
                   >+</a
                 >
-              </div>  
+              </div>
             </div>
           </div>
         </div>
@@ -914,7 +872,6 @@
         document.getElementById(prefix + tabName).classList.add("active");
       }
 
-      // Cerrar modal al presionar ESC o hacer clic en el backdrop
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           closeAllModals();
