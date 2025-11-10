@@ -19,7 +19,7 @@
         --folder-front: #f5c249;
         --folder-back: #e0a83c;
         --folder-inner: #fff5d6;
-        --shadow: rgba(0,0,0,0.2);
+        --shadow: rgba(0, 0, 0, 0.2);
       }
 
       body {
@@ -29,17 +29,17 @@
         color: #333;
       }
       .scene,
-.folder,
-.team-btn,
-.open-book-btn,
-.close-btn,
-.tab,
-.resource-btn,
-.book-more-btn,
-button:not(:disabled),
-a {
-  cursor: url("img/mano_cursor_default.png") 0 0, pointer !important;
-}
+      .folder,
+      .team-btn,
+      .open-book-btn,
+      .close-btn,
+      .tab,
+      .resource-btn,
+      .book-more-btn,
+      button:not(:disabled),
+      a {
+        cursor: url("img/mano_cursor_default.png") 0 0, pointer !important;
+      }
       .logo-container {
         display: flex;
         justify-content: space-between;
@@ -77,7 +77,8 @@ a {
 
       .color-sensei {
         color: var(--color-accent);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+          1px 1px 0 #000;
       }
 
       .subtitle {
@@ -144,7 +145,8 @@ a {
         transform: translateY(-10px);
       }
 
-      .back, .front {
+      .back,
+      .front {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -162,7 +164,7 @@ a {
       .front {
         background: linear-gradient(180deg, var(--folder-front), #f0b93a);
         transform: rotateY(0deg);
-        transition: transform 0.6s ease;
+        transition: transform 0.4s ease;
         z-index: 2;
         display: flex;
         flex-direction: column;
@@ -174,7 +176,7 @@ a {
       }
 
       .scene:hover .front {
-        transform: rotateY(-25deg);
+        transform: rotateY(-30deg);
       }
 
       .inner {
@@ -194,12 +196,10 @@ a {
       }
 
       .folder-title {
-        font-size: 2.5em;
+        font-size: 1.5em;
         text-align: center;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
-
-
 
       .modal-backdrop {
         display: none;
@@ -265,7 +265,8 @@ a {
       .content-title {
         font-size: 2.5em;
         color: var(--color-primary);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+          1px 1px 0 #000;
         margin-bottom: 30px;
         text-align: center;
         border-bottom: 3px solid var(--color-primary);
@@ -291,7 +292,8 @@ a {
         font-size: 1em;
         transition: all 0.3s;
         color: var(--color-primary);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+          1px 1px 0 #000;
         font-weight: bold;
         margin-right: -2px;
         position: relative;
@@ -378,7 +380,8 @@ a {
       .resource-title {
         font-weight: bold;
         color: var(--color-primary);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+          1px 1px 0 #000;
         margin-bottom: 10px;
         font-size: 1.1em;
       }
@@ -534,7 +537,12 @@ a {
             <div class="inner"></div>
             <div class="back"></div>
             <div class="front">
-              <img src="img/boton2.png" alt="Icono Proyecto 1" class="folder-icon" onerror="this.style.display='none'" />
+              <img
+                src="img/boton2.png"
+                alt="Icono Proyecto 1"
+                class="folder-icon"
+                onerror="this.style.display='none'"
+              />
               <div class="folder-title">Videojuego VR</div>
             </div>
           </div>
@@ -547,12 +555,16 @@ a {
             <div class="inner"></div>
             <div class="back"></div>
             <div class="front">
-              <img src="img/boton1.png" alt="Icono Proyecto 2" class="folder-icon" onerror="this.style.display='none'" />
+              <img
+                src="img/boton1.png"
+                alt="Icono Proyecto 2"
+                class="folder-icon"
+                onerror="this.style.display='none'"
+              />
               <div class="folder-title">Proyecto</div>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
 
@@ -562,7 +574,10 @@ a {
     <div id="proyecto1" class="modal">
       <div class="book-content">
         <button class="close-btn" onclick="closeBook('proyecto1')">×</button>
-        <h1 class="content-title">📖 Videojuego</h1>
+        <h1 class="content-title">
+  <img src="img/boton2.png" alt="Icono" style="width: 60px; height: 60px; vertical-align: middle; margin-right: 15px;">
+  Videojuego
+</h1>
 
         <div class="tabs">
           <button class="tab active" onclick="showTab('p1', 'contexto')">
@@ -577,21 +592,60 @@ a {
         </div>
 
         <div id="p1-contexto" class="tab-content active">
-          <div class="section">
-            <h2 class="section-title">Contexto del Proyecto</h2>
-            <div class="section-content">
-              <p>
-                Videojuego inmersivo en realidad virtual, se enfoca en la
-                atencion en un kiosko.
-              </p>
+          <div
+            class="section"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 30px;
+              align-items: flex-start;
+            "
+          >
+            <!-- 📝 Columna Izquierda: Texto -->
+            <div style="flex: 1 1 400px">
+              <h2 class="section-title">Contexto del Proyecto</h2>
+              <div class="section-content">
+                <p>
+                  Videojuego inmersivo en realidad virtual, se enfoca en la
+                  atención en un kiosko.
+                </p>
+              </div>
+
+              <h2 class="section-title">Idea Principal</h2>
+              <div class="section-content">
+                <p>
+                  Plasmar principios de usabilidad para una mejor experiencia.
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="section">
-            <h2 class="section-title">Idea Principal</h2>
-            <div class="section-content">
-              <p>
-                Plasmar principios de usabilidad para una mejor experiencia.
-              </p>
+
+            <!-- 🎥 Columna Derecha: Video -->
+            <div
+              style="
+                flex: 1 1 400px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <h3 style="margin-bottom: 10px; color: #333">
+                Demostración del Kiosko VR
+              </h3>
+              <!-- Usa tu propio enlace de video aquí -->
+              <video
+                controls
+                style="
+                  width: 100%;
+                  max-width: 600px;
+                  border-radius: 10px;
+                  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                "
+              >
+                <source src="video/Ganar.mp4" type="video/mp4" />
+                Tu navegador no soporta videos HTML5.
+              </video>
+              
             </div>
           </div>
         </div>
@@ -700,7 +754,10 @@ a {
     <div id="proyecto2" class="modal">
       <div class="book-content">
         <button class="close-btn" onclick="closeBook('proyecto2')">×</button>
-        <h1 class="content-title">📖 Proyecto</h1>
+        <h1 class="content-title">
+  <img src="img/boton1.png" alt="Icono" style="width: 60px; height: 60px; vertical-align: middle; margin-right: 15px;">
+  Proyecto
+</h1>
 
         <div class="tabs">
           <button class="tab active" onclick="showTab('p2', 'contexto')">
