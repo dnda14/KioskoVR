@@ -895,11 +895,14 @@
       }
     });
 
-    document
-      .getElementById("modalBackdrop")
-      .addEventListener("click", function () {
-        closeAllModals();
+    // Cerrar al hacer clic en el área vacía del modal
+    document.querySelectorAll(".modal").forEach((modal) => {
+      modal.addEventListener("click", function (e) {
+        if (e.target === this) {
+          closeAllModals();
+        }
       });
+    });
 
     function closeAllModals() {
       document.querySelectorAll(".modal").forEach((modal) => {
