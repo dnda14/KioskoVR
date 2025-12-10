@@ -1,966 +1,912 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Biblioteca de Proyectos</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
 
-      :root {
-        --color-primary: #dace73;
-        --color-secondary: #ffffff;
-        --color-accent: #a7c7e7;
-        --color-texto: #333333;
-        --folder-front: #f5c249;
-        --folder-back: #e0a83c;
-        --folder-inner: #fff5d6;
-        --shadow: rgba(0, 0, 0, 0.2);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca de Proyectos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: "Georgia", serif;
-        background: var(--color-accent);
-        min-height: 100vh;
-        color: #333;
-      }
-      .scene,
-      .folder,
-      .team-btn,
-      .open-book-btn,
-      .close-btn,
-      .tab,
-      .resource-btn,
-      .book-more-btn,
-      button:not(:disabled),
-      a {
-        cursor: url("img/mano_cursor_default.png") 0 0, pointer !important;
-      }
+    :root {
+      --color-primary: #dace73;
+      --color-secondary: #ffffff;
+      --color-accent: #a7c7e7;
+      --color-texto: #000000;
+      --folder-front: #f5c249;
+      --folder-back: #e0a83c;
+      --folder-inner: #fff5d6;
+      --shadow: rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: var(--color-accent);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .scene,
+    .folder,
+    .team-btn,
+    .open-book-btn,
+    .close-btn,
+    .tab,
+    .resource-btn,
+    .book-more-btn,
+    button:not(:disabled),
+    a {
+      cursor: url("img/mano_cursor_default.png") 0 0, pointer !important;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 40px;
+      background: var(--color-secondary);
+    }
+
+    .logo-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 8px;
+      object-fit: contain;
+      padding: 8px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      font-size: 3.5em;
+      font-weight: bold;
+      color: var(--color-texto);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    .color-sensei {
+      color: var(--color-accent);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+    }
+
+    .subtitle {
+      font-size: 0.9em;
+      font-style: italic;
+    }
+
+    .team-btn {
+      background: var(--folder-front);
+      color: var(--color-texto);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .team-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .library {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 100px;
+      padding: 80px 20px;
+      flex-wrap: wrap;
+      perspective: 1500px;
+    }
+
+    /* Estilos de Folders */
+    .folder-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .scene {
+      width: 280px;
+      height: 336px;
+      perspective: 800px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .folder {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+    }
+
+    .scene:hover .folder {
+      transform: translateY(-10px);
+    }
+
+    .back,
+    .front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      backface-visibility: hidden;
+      box-shadow: 0 8px 25px var(--shadow);
+      transform-origin: left center;
+    }
+
+    .back {
+      background: linear-gradient(180deg, var(--folder-back), #d6962f);
+      z-index: 1;
+    }
+
+    .front {
+      background: linear-gradient(180deg, var(--folder-front), #f0b93a);
+      transform: rotateY(0deg);
+      transition: transform 0.4s ease;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      color: #684b11;
+      font-weight: 700;
+    }
+
+    .scene:hover .front {
+      transform: rotateY(-30deg);
+    }
+
+    .inner {
+      position: absolute;
+      inset: 16px;
+      background: var(--folder-inner);
+      border-radius: 8px;
+      box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.15);
+      z-index: 0;
+    }
+
+    .folder-icon {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .folder-title {
+      font-size: 1.5em;
+      color: var(--color-texto);
+      text-align: center;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 999;
+    }
+
+    .modal-backdrop.active {
+      display: block;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: block;
+    }
+
+    .book-content {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: var(--color-accent);
+      padding: 60px;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--color-primary);
+      color: #f0e6d2;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5em;
+      transition: all 0.3s;
+    }
+
+    .close-btn:hover {
+      background: #654321;
+      transform: rotate(90deg);
+    }
+
+    .content-title {
+      font-size: 2.5em;
+      color: var(--color-primary);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+      margin-bottom: 30px;
+      text-align: center;
+      border-bottom: 3px solid var(--color-primary);
+      padding-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0px;
+      margin-bottom: 0px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+      transform: translateY(-1px);
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: var(--color-primary);
+      border: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s;
+      color: var(--color-texto);
+      font-weight: bold;
+      margin-right: -2px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .tab.active::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--color-secondary);
+      z-index: 4;
+    }
+
+    .tab:hover {
+      background: #c4b599;
+    }
+
+    .tab.active {
+      background: var(--color-secondary);
+      color: var(--color-primary);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+      z-index: 4;
+      margin-bottom: -2px;
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--color-secondary);
+      padding: 30px;
+      border-radius: 0 8px 8px 8px;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: 2px solid var(--color-primary);
+      margin-top: -2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 1.5em;
+      color: var(--color-primary);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+      margin-bottom: 15px;
+      border-left: 5px solid var(--color-primary);
+      padding-left: 15px;
+    }
+
+    .section-content {
+      line-height: 1.8;
+      color: #0c0c0c;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .resource-card {
+      background: var(--color-accent);
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #d4c5a9;
+      transition: all 0.3s;
+    }
+
+    .resource-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+    }
+
+    .resource-title {
+      font-weight: bold;
+      color: var(--color-primary);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .resource-desc {
+      color: #020202;
+      font-size: 0.95em;
+    }
+
+    .resource-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary);
+      color: #f0e6d2;
+      text-decoration: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .resource-btn:hover {
+      background: var(--color-secondary);
+      color: var(--color-primary);
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .team-card {
+      background: var(--color-secondary);
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid #d4c5a9;
+      transition: all 0.3s;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .team-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+      transform: translateY(-5px);
+    }
+
+    .team-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 4px solid var(--color-secondary);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-name {
+      font-weight: bold;
+      color: var(--color-primary);
+      font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+
+    .team-role {
+      color: #666;
+      font-size: 0.9em;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
       .logo-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 40px;
-        background: var(--color-secondary);
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
       }
 
       .logo-left {
-        display: flex;
-        align-items: center;
-        gap: 15px;
+        flex-direction: column;
+        text-align: center;
       }
 
       .logo-image {
-        width: 150px;
-        height: 150px;
-        border-radius: 8px;
-        object-fit: contain;
-        padding: 8px;
-      }
-
-      .logo-text {
-        display: flex;
-        flex-direction: column;
+        width: 50px;
+        height: 50px;
       }
 
       .logo {
-        font-size: 3.5em;
-        font-weight: bold;
-        color: var(--color-texto);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        letter-spacing: 2px;
-      }
-
-      .color-sensei {
-        color: var(--color-accent);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-          1px 1px 0 #000;
-      }
-
-      .subtitle {
-        font-size: 0.9em;
-        font-style: italic;
-      }
-
-      .team-btn {
-        background: var(--folder-front);
-        color: var(--color-texto);
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 1em;
-        font-weight: bold;
-        transition: all 0.3s;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .team-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        font-size: 1.5em;
       }
 
       .library {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 100px;
-        padding: 80px 20px;
-        flex-wrap: wrap;
-        perspective: 1500px;
-      }
-
-      /* Estilos de Folders */
-      .folder-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
+        gap: 40px;
+        padding: 40px 20px;
       }
 
       .scene {
-        width: 280px;
-        height: 336px;
-        perspective: 800px;
-        cursor: pointer;
-        position: relative;
-      }
-
-      .folder {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transform-style: preserve-3d;
-        transition: transform 0.3s ease;
-      }
-
-      .scene:hover .folder {
-        transform: translateY(-10px);
-      }
-
-      .back,
-      .front {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 12px;
-        backface-visibility: hidden;
-        box-shadow: 0 8px 25px var(--shadow);
-        transform-origin: left center;
-      }
-
-      .back {
-        background: linear-gradient(180deg, var(--folder-back), #d6962f);
-        z-index: 1;
-      }
-
-      .front {
-        background: linear-gradient(180deg, var(--folder-front), #f0b93a);
-        transform: rotateY(0deg);
-        transition: transform 0.4s ease;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        color: #684b11;
-        font-weight: 700;
-      }
-
-      .scene:hover .front {
-        transform: rotateY(-30deg);
-      }
-
-      .inner {
-        position: absolute;
-        inset: 16px;
-        background: var(--folder-inner);
-        border-radius: 8px;
-        box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.15);
-        z-index: 0;
+        width: 240px;
+        height: 288px;
       }
 
       .folder-icon {
-        width: 120px;
-        height: 120px;
-        object-fit: contain;
-        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-      }
-
-      .folder-title {
-        font-size: 1.5em;
-        color: var(--color-texto);
-        text-align: center;
-        }
-
-      .modal-backdrop {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-        z-index: 999;
-      }
-
-      .modal-backdrop.active {
-        display: block;
-      }
-
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
-        overflow-y: auto;
-      }
-
-      .modal.active {
-        display: block;
+        width: 80px;
+        height: 80px;
       }
 
       .book-content {
-        max-width: 1200px;
-        margin: 40px auto;
-        background: var(--color-accent);
-        padding: 60px;
-        border-radius: 10px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        position: relative;
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: var(--color-primary);
-        color: #f0e6d2;
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.5em;
-        transition: all 0.3s;
-      }
-
-      .close-btn:hover {
-        background: #654321;
-        transform: rotate(90deg);
+        padding: 30px 20px;
       }
 
       .content-title {
-        font-size: 2.5em;
-        color: var(--color-primary);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-          1px 1px 0 #000;
-        margin-bottom: 30px;
-        text-align: center;
-        border-bottom: 3px solid var(--color-primary);
-        padding-bottom: 20px;
-      }
-
-      .tabs {
-        display: flex;
-        gap: 0px;
-        margin-bottom: 0px;
-        flex-wrap: wrap;
-        position: relative;
-        z-index: 2;
-        transform: translateY(-1px);
-      }
-
-      .tab {
-        padding: 12px 24px;
-        background: var(--color-primary);
-        border: none;
-        border-radius: 8px 8px 0 0;
-        cursor: pointer;
-        font-size: 1em;
-        transition: all 0.3s;
-        color: var(--color-texto);
-        font-weight: bold;
-        margin-right: -2px;
-        position: relative;
-        z-index: 3;
-      }
-
-      .tab.active::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: var(--color-secondary);
-        z-index: 4;
-      }
-
-      .tab:hover {
-        background: #c4b599;
-      }
-
-      .tab.active {
-        background: var(--color-secondary);
-        color: var(--color-primary);
-        z-index: 4;
-        margin-bottom: -2px;
-      }
-
-      .tab-content {
-        display: none;
-        background: var(--color-secondary);
-        padding: 30px;
-        border-radius: 0 8px 8px 8px;
-        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
-        border: 2px solid var(--color-primary);
-        margin-top: -2px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      .section {
-        margin-bottom: 30px;
-      }
-
-      .section-title {
-        font-size: 1.5em;
-        color: var(--color-primary);
-        margin-bottom: 15px;
-        border-left: 5px solid var(--color-primary);
-        padding-left: 15px;
-      }
-
-      .section-content {
-        line-height: 1.8;
-        color: #0c0c0c;
-      }
-
-      .resource-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-      }
-
-      .resource-card {
-        background: var(--color-accent);
-        padding: 20px;
-        border-radius: 8px;
-        border: 2px solid #d4c5a9;
-        transition: all 0.3s;
-      }
-
-      .resource-card:hover {
-        border-color: var(--color-primary);
-        box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
-      }
-
-      .resource-title {
-        font-weight: bold;
-        color: var(--color-primary);
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-          1px 1px 0 #000;
-        margin-bottom: 10px;
-        font-size: 1.1em;
-      }
-
-      .resource-desc {
-        color: #020202;
-        font-size: 0.95em;
-      }
-
-      .resource-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--color-primary);
-        color: #f0e6d2;
-        text-decoration: none;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-top: 15px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .resource-btn:hover {
-        background: var(--color-secondary);
-        color: var(--color-primary);
-        transform: scale(1.1);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        font-size: 2em;
       }
 
       .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 30px;
-        margin-top: 30px;
+        grid-template-columns: 1fr;
       }
+    }
+  </style>
+</head>
 
-      .team-card {
-        background: var(--color-secondary);
-        padding: 25px;
-        border-radius: 12px;
-        border: 2px solid #d4c5a9;
-        transition: all 0.3s;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .team-card:hover {
-        border-color: var(--color-primary);
-        box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
-        transform: translateY(-5px);
-      }
-
-      .team-photo {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin: 0 auto 20px;
-        border: 4px solid var(--color-secondary);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .team-name {
-        font-weight: bold;
-        color: var(--color-primary);
-        font-size: 1.2em;
-        margin-bottom: 8px;
-      }
-
-      .team-role {
-        color: #666;
-        font-size: 0.9em;
-        font-style: italic;
-      }
-
-      @media (max-width: 768px) {
-        .logo-container {
-          flex-direction: column;
-          gap: 20px;
-          padding: 20px;
-        }
-
-        .logo-left {
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .logo-image {
-          width: 50px;
-          height: 50px;
-        }
-
-        .logo {
-          font-size: 1.5em;
-        }
-
-        .library {
-          gap: 40px;
-          padding: 40px 20px;
-        }
-
-        .scene {
-          width: 240px;
-          height: 288px;
-        }
-
-        .folder-icon {
-          width: 80px;
-          height: 80px;
-        }
-
-        .book-content {
-          padding: 30px 20px;
-        }
-
-        .content-title {
-          font-size: 2em;
-        }
-
-        .team-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="logo-container">
-      <div class="logo-left">
-        <img
-          src="img/logo.png"
-          alt="Logo del Equipo"
-          class="logo-image"
-          onerror="this.style.display='none'"
-        />
-      </div>
-      <div class="logo-text">
-        <div class="logo">Git<span class="color-sensei">Sensei</span></div>
-      </div>
-      <button class="team-btn" onclick="openBook('team')">
-        <span>👥</span>
-        <span>Nosotros</span>
-      </button>
+<body>
+  <div class="logo-container">
+    <div class="logo-left">
+      <img src="img/logo.png" alt="Logo del Equipo" class="logo-image" onerror="this.style.display='none'" />
     </div>
+    <div class="logo-text">
+      <div class="logo">Git<span class="color-sensei">Sensei</span></div>
+    </div>
+    <button class="team-btn" onclick="openBook('team')">
+      <span>👥</span>
+      <span>Nosotros</span>
+    </button>
+  </div>
 
-    <div class="library">
-      <div class="folder-container">
-        <div class="scene" onclick="openBook('proyecto1')">
-          <div class="folder">
-            <div class="inner"></div>
-            <div class="back"></div>
-            <div class="front">
-              <img
-                src="img/boton2.png"
-                alt="Icono Proyecto 1"
-                class="folder-icon"
-                onerror="this.style.display='none'"
-              />
-              <div class="folder-title">Videojuego VR</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="folder-container">
-        <div class="scene" onclick="openBook('proyecto2')">
-          <div class="folder">
-            <div class="inner"></div>
-            <div class="back"></div>
-            <div class="front">
-              <img
-                src="img/boton1.png"
-                alt="Icono Proyecto 2"
-                class="folder-icon"
-                onerror="this.style.display='none'"
-              />
-              <div class="folder-title">Proyecto</div>
-            </div>
+  <div class="library">
+    <div class="folder-container">
+      <div class="scene" onclick="openBook('proyecto1')">
+        <div class="folder">
+          <div class="inner"></div>
+          <div class="back"></div>
+          <div class="front">
+            <img src="img/boton2.png" alt="Icono Proyecto 1" class="folder-icon" onerror="this.style.display='none'" />
+            <div class="folder-title">Videojuego VR</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="folder-container">
+      <div class="scene" onclick="openBook('proyecto2')">
+        <div class="folder">
+          <div class="inner"></div>
+          <div class="back"></div>
+          <div class="front">
+            <img src="img/boton1.png" alt="Icono Proyecto 2" class="folder-icon" onerror="this.style.display='none'" />
+            <div class="folder-title">Proyecto</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Modal Proyecto 1 -->
-    <div id="proyecto1" class="modal">
-      <div class="book-content">
-        <button class="close-btn" onclick="closeBook('proyecto1')">×</button>
-        <h1 class="content-title">
-          <img
-            src="img/boton2.png"
-            alt="Icono"
-            style="
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+
+  <!-- Modal Proyecto 1 -->
+  <div id="proyecto1" class="modal">
+    <div class="book-content">
+      <button class="close-btn" onclick="closeBook('proyecto1')">×</button>
+      <h1 class="content-title">
+        <img src="img/boton2.png" alt="Icono" style="
               width: 60px;
               height: 60px;
               vertical-align: middle;
               margin-right: 15px;
-            "
-          />
-          Videojuego
-        </h1>
+            " />
+        Videojuego
+      </h1>
 
-        <div class="tabs">
-          <button class="tab active" onclick="showTab('p1', 'contexto')">
-            Contexto e Idea
-          </button>
-          <button class="tab" onclick="showTab('p1', 'recursos')">
-            Recursos
-          </button>
-          <button class="tab" onclick="showTab('p1', 'tests')">
-            Tests y Pruebas
-          </button>
-        </div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('p1', 'contexto')">
+          Contexto e Idea
+        </button>
+        <button class="tab" onclick="showTab('p1', 'recursos')">
+          Recursos
+        </button>
+        <button class="tab" onclick="showTab('p1', 'tests')">
+          Tests y Pruebas
+        </button>
+      </div>
 
-        <div id="p1-contexto" class="tab-content active">
-          <div
-            class="section"
-            style="
+      <div id="p1-contexto" class="tab-content active">
+        <div class="section" style="
               display: flex;
               flex-wrap: wrap;
               gap: 30px;
               align-items: flex-start;
-            "
-          >
-            <!-- 📝 Columna Izquierda: Texto -->
-            <div style="flex: 1 1 400px">
-              <h2 class="section-title">Contexto del Proyecto</h2>
-              <div class="section-content">
-                <p>
-                  Videojuego inmersivo en realidad virtual, se enfoca en la
-                  atención en un kiosko.
-                </p>
-              </div>
-
-              <h2 class="section-title">Idea Principal</h2>
-              <div class="section-content">
-                <p>
-                  Plasmar principios de usabilidad para una mejor experiencia.
-                </p>
-              </div>
+            ">
+          <!-- 📝 Columna Izquierda: Texto -->
+          <div style="flex: 1 1 400px">
+            <h2 class="section-title">Contexto del Proyecto</h2>
+            <div class="section-content">
+              <p>
+                Videojuego inmersivo en realidad virtual, se enfoca en la
+                atención en un kiosko.
+              </p>
             </div>
 
-            <!-- 🎥 Columna Derecha: Video -->
-            <div
-              style="
+            <h2 class="section-title">Idea Principal</h2>
+            <div class="section-content">
+              <p>
+                Plasmar principios de usabilidad para una mejor experiencia.
+              </p>
+            </div>
+          </div>
+
+          <!-- 🎥 Columna Derecha: Video -->
+          <div style="
                 flex: 1 1 400px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 text-align: center;
-              "
-            >
-              <h3 style="margin-bottom: 10px; color: #333">
-                Demostración del Kiosko VR
-              </h3>
-              <!-- Usa tu propio enlace de video aquí -->
-              <video
-                controls
-                style="
+              ">
+            <h3 style="margin-bottom: 10px; color: #333">
+              Demostración del Kiosko VR
+            </h3>
+            <!-- Usa tu propio enlace de video aquí -->
+            <video controls style="
                   width: 100%;
                   max-width: 600px;
                   border-radius: 10px;
                   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-                "
-              >
-                <source src="video/video_simulacion.mp4" type="video/mp4" />
-                Tu navegador no soporta videos HTML5.
-              </video>
+                ">
+              <source src="video/video_simulacion.mp4" type="video/mp4" />
+              Tu navegador no soporta videos HTML5.
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div id="p1-recursos" class="tab-content">
+        <div class="section">
+          <h2 class="section-title">Recursos del Proyecto</h2>
+          <div class="resource-grid">
+            <div class="resource-card">
+              <div class="resource-title">📐 Boceto</div>
+              <div class="resource-desc">
+                Primeros sketches y conceptos visuales del proyecto.
+              </div>
+              <a href="https://photos.app.goo.gl/Gxqi56CcZvCUuHeeA" target="_blank" class="resource-btn">+</a>
+            </div>
+            <div class="resource-card">
+              <div class="resource-title">🏗️ Diseño de Maqueta</div>
+              <div class="resource-desc">
+                Maquetas digitales y físicas del diseño.
+              </div>
+              <a href="https://photos.app.goo.gl/R8YjWZbKQCiFsUkMA" target="_blank" class="resource-btn">+</a>
+            </div>
+            <div class="resource-card">
+              <div class="resource-title">📄 Entorno real</div>
+              <div class="resource-desc">
+                Desarrollo y capturas del entorno real replicado.
+              </div>
+              <a href="https://photos.google.com/share/AF1QipN9sT-c2KmwUk7giMUTaVv363nYtSNrA82VJ0E96zpLsVLl4PVn4N_Xxn-AtdcSlA?key=SUFZTzdjR1lYYUVLbG1UZzg3akdFandOZUt2Y2V3"
+                target="_blank" class="resource-btn">+</a>
+            </div>
+            <div class="resource-card">
+              <div class="resource-title">🥽 Entorno VR</div>
+              <div class="resource-desc">Desarrollo del entorno VR.</div>
+              <a href="https://drive.google.com/drive/folders/1B600OQzcp7i2D4ilxmy6twr7F_YrVJ2H?usp=drive_link"
+                target="_blank" class="resource-btn">+</a>
             </div>
           </div>
         </div>
+      </div>
 
-        <div id="p1-recursos" class="tab-content">
-          <div class="section">
-            <h2 class="section-title">Recursos del Proyecto</h2>
-            <div class="resource-grid">
-              <div class="resource-card">
-                <div class="resource-title">📐 Boceto</div>
-                <div class="resource-desc">
-                  Primeros sketches y conceptos visuales del proyecto.
-                </div>
-                <a
-                  href="https://photos.app.goo.gl/Gxqi56CcZvCUuHeeA"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
+      <div id="p1-tests" class="tab-content">
+        <div class="section">
+          <h2 class="section-title">Pruebas con Usuarios</h2>
+          <div class="resource-grid">
+            <div class="resource-card">
+              <div class="resource-title">🎨 Pruebas en Maqueta</div>
+              <div class="resource-desc">
+                Resultados y feedback de las pruebas con la maqueta digital.
               </div>
-              <div class="resource-card">
-                <div class="resource-title">🏗️ Diseño de Maqueta</div>
-                <div class="resource-desc">
-                  Maquetas digitales y físicas del diseño.
-                </div>
-                <a
-                  href="https://photos.app.goo.gl/R8YjWZbKQCiFsUkMA"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
-              <div class="resource-card">
-                <div class="resource-title">📄 Entorno real</div>
-                <div class="resource-desc">
-                  Desarrollo y capturas del entorno real replicado.
-                </div>
-                <a
-                  href="https://photos.google.com/share/AF1QipN9sT-c2KmwUk7giMUTaVv363nYtSNrA82VJ0E96zpLsVLl4PVn4N_Xxn-AtdcSlA?key=SUFZTzdjR1lYYUVLbG1UZzg3akdFandOZUt2Y2V3"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
-              <div class="resource-card">
-                <div class="resource-title">🥽 Entorno VR</div>
-                <div class="resource-desc">Desarrollo del entorno VR.</div>
-                <a
-                  href="https://drive.google.com/drive/folders/1B600OQzcp7i2D4ilxmy6twr7F_YrVJ2H?usp=drive_link"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
+              <a href="https://drive.google.com/drive/folders/16oVE32qitcsq6iM7p3rHOhgAIsNViVbY" target="_blank"
+                class="resource-btn">+</a>
             </div>
-          </div>
-        </div>
-
-        <div id="p1-tests" class="tab-content">
-          <div class="section">
-            <h2 class="section-title">Pruebas con Usuarios</h2>
-            <div class="resource-grid">
-              <div class="resource-card">
-                <div class="resource-title">🎨 Pruebas en Maqueta</div>
-                <div class="resource-desc">
-                  Resultados y feedback de las pruebas con la maqueta digital.
-                </div>
-                <a
-                  href="https://drive.google.com/drive/folders/16oVE32qitcsq6iM7p3rHOhgAIsNViVbY"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
+            <div class="resource-card">
+              <div class="resource-title">🏢 Modelo a Escala Real</div>
+              <div class="resource-desc">
+                Tests realizados con el modelo físico a escala real.
               </div>
-              <div class="resource-card">
-                <div class="resource-title">🏢 Modelo a Escala Real</div>
-                <div class="resource-desc">
-                  Tests realizados con el modelo físico a escala real.
-                </div>
-                <a
-                  href="https://drive.google.com/drive/folders/1GCkWTLH9UdsSgZhXakhGkrhAQ2WkQR7q?usp=sharing"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
+              <a href="https://drive.google.com/drive/folders/1GCkWTLH9UdsSgZhXakhGkrhAQ2WkQR7q?usp=sharing"
+                target="_blank" class="resource-btn">+</a>
+            </div>
+            <div class="resource-card">
+              <div class="resource-title">🎮 Pruebas en VR</div>
+              <div class="resource-desc">
+                Sesiones de testing en el entorno de realidad virtual.
               </div>
-              <div class="resource-card">
-                <div class="resource-title">🎮 Pruebas en VR</div>
-                <div class="resource-desc">
-                  Sesiones de testing en el entorno de realidad virtual.
-                </div>
-                <a
-                  href="https://drive.google.com/drive/folders/1B600OQzcp7i2D4ilxmy6twr7F_YrVJ2H"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
+              <a href="https://drive.google.com/drive/folders/1B600OQzcp7i2D4ilxmy6twr7F_YrVJ2H" target="_blank"
+                class="resource-btn">+</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Modal Proyecto 2 -->
-    <div id="proyecto2" class="modal">
-      <div class="book-content">
-        <button class="close-btn" onclick="closeBook('proyecto2')">×</button>
-        <h1 class="content-title">
-          <img
-            src="img/boton1.png"
-            alt="Icono"
-            style="
+  <!-- Modal Proyecto 2 -->
+  <div id="proyecto2" class="modal">
+    <div class="book-content">
+      <button class="close-btn" onclick="closeBook('proyecto2')">×</button>
+      <h1 class="content-title">
+        <img src="img/boton1.png" alt="Icono" style="
               width: 60px;
               height: 60px;
               vertical-align: middle;
               margin-right: 15px;
-            "
-          />
-          Proyecto
-        </h1>
+            " />
+        Proyecto
+      </h1>
 
-        <div class="tabs">
-          <button class="tab active" onclick="showTab('p2', 'contexto')">
-            Contexto e Idea
-          </button>
-          <button class="tab" onclick="showTab('p2', 'recursos')">
-            Recursos
-          </button>
-        </div>
-
-        <div id="p2-contexto" class="tab-content active">
-          <div class="section">
-            <h2 class="section-title">Contexto del Proyecto</h2>
-            <div class="section-content">
-              <p>
-                Realizacion de un proyecto relacionado a repositorios de
-                software.
-              </p>
-            </div>
-          </div>
-          <div class="section">
-            <h2 class="section-title">Idea Principal</h2>
-            <div class="section-content">
-              <p>Implementar un entorno usable.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="p2-recursos" class="tab-content">
-          <div class="section">
-            <h2 class="section-title">Recursos del Proyecto</h2>
-            <div class="resource-grid">
-              <div class="resource-card">
-                <div class="resource-title">🎨 Entrega cero</div>
-                <div class="resource-desc">
-                  Documento que almacena resultados de las intervenciones a
-                  usuarios.
-                </div>
-                <a
-                  href="https://drive.google.com/file/d/1Mnhf39EufgAhsxZctW04x16sIs3_6pxn/view?usp=sharing"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
-              <div class="resource-card">
-                <div class="resource-title">📐 Needfinding</div>
-                <div class="resource-desc">
-                  Documento que almacena resultados de las intervenciones a
-                  usuarios.
-                </div>
-                <a
-                  href="https://docs.google.com/presentation/d/1AG2MPNqSts30Id72IxYj8CjTKoABIifwFJfELoEjM44/edit?slide=id.p#slide=id.p"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
-              <div class="resource-card">
-                <div class="resource-title">📷 Grabaciones</div>
-                <div class="resource-desc">Observaciones en usuarios.</div>
-                <a
-                  href="https://photos.app.goo.gl/uoYqZeHoMqr2nNaN9"
-                  target="_blank"
-                  class="resource-btn"
-                  >+</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('p2', 'contexto')">
+          Contexto e Idea
+        </button>
+        <button class="tab" onclick="showTab('p2', 'recursos')">
+          Recursos
+        </button>
+        <button class="tab" onclick="showTab('p2', 'grabaciones')">
+          Grabaciones
+        </button>
       </div>
-    </div>
 
-    <!-- Modal Equipo/Nosotros -->
-    <div id="team" class="modal">
-      <div class="book-content">
-        <button class="close-btn" onclick="closeBook('team')">×</button>
-        <h1 class="content-title">👥 Nuestro Equipo</h1>
-
+      <div id="p2-contexto" class="tab-content active">
         <div class="section">
-          <div class="team-grid">
-            <div class="team-card">
-              <img
-                src="img/foto_ar.jpeg"
-                alt="Arleen Ferro Vasquez"
-                class="team-photo"
-                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=A'"
-              />
-              <div class="team-name">Arleen Ferro Vasquez</div>
-              <div class="team-role"></div>
-            </div>
+          <h2 class="section-title">Contexto del Proyecto</h2>
+          <div class="section-content">
+            <p>
+              Realizacion de un proyecto relacionado a repositorios de
+              software.
+            </p>
+          </div>
+        </div>
+        <div class="section">
+          <h2 class="section-title">Idea Principal</h2>
+          <div class="section-content">
+            <p>Implementar un entorno usable.</p>
+          </div>
+        </div>
+      </div>
 
-            <div class="team-card">
-              <img
-                src="img/foto_wil.jpeg"
-                alt="Wilson Mamani Casilla"
-                class="team-photo"
-                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=W'"
-              />
-              <div class="team-name">Wilson Mamani Casilla</div>
-              <div class="team-role"></div>
+      <div id="p2-recursos" class="tab-content">
+        <div class="section">
+          <h2 class="section-title">Recursos del Proyecto</h2>
+          <div class="resource-grid">
+            <div class="resource-card">
+              <div class="resource-title">🎨 Entrega cero</div>
+              <div class="resource-desc">
+                Documento que almacena resultados de las intervenciones a
+                usuarios.
+              </div>
+              <a href="https://drive.google.com/file/d/1Mnhf39EufgAhsxZctW04x16sIs3_6pxn/view?usp=sharing"
+                target="_blank" class="resource-btn">+</a>
             </div>
-
-            <div class="team-card">
-              <img
-                src="img/foto_jaz.jpeg"
-                alt="Jazmin Perez Villasante"
-                class="team-photo"
-                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=J'"
-              />
-              <div class="team-name">Jazmin Perez Villasante</div>
-              <div class="team-role"></div>
+            <div class="resource-card">
+              <div class="resource-title">📐 Needfinding</div>
+              <div class="resource-desc">
+                Documento que almacena resultados de las intervenciones a
+                usuarios.
+              </div>
+              <a href="https://docs.google.com/presentation/d/1AG2MPNqSts30Id72IxYj8CjTKoABIifwFJfELoEjM44/edit?slide=id.p#slide=id.p"
+                target="_blank" class="resource-btn">+</a>
             </div>
-
-            <div class="team-card">
-              <img
-                src="img/foto_edil.jpeg"
-                alt="Edilson Mamani Yucra"
-                class="team-photo"
-                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=E'"
-              />
-              <div class="team-name">Edilson Mamani Yucra</div>
-              <div class="team-role"></div>
+            <div class="resource-card">
+              <div class="resource-title">📷 Personas</div>
+              <div class="resource-desc">Grupo de personas definidas en el proyecto</div>
+              <a href="https://www.canva.com/design/DAG5AbRhUQY/3S4FG5v21Yc0MMMYsRbSkg/edit" target="_blank"
+                class="resource-btn">+</a>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="team-card">
-              <img
-                src="img/foto_cri.jpeg"
-                alt="Cristhian Huanca Olazabal"
-                class="team-photo"
-                onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=C'"
-              />
-              <div class="team-name">Cristhian Huanca Olazabal</div>
-              <div class="team-role"></div>
+      <div id="p2-grabaciones" class="tab-content">
+        <div class="section">
+          <h2 class="section-title">Grabaciones del Proyecto</h2>
+          <div class="resource-grid">
+            <div class="resource-card">
+              <div class="resource-title">🎥 Needfinding</div>
+              <div class="resource-desc">
+                Grabaciones de la etapa de needfinding.
+              </div>
+              <a href="https://photos.app.goo.gl/uoYqZeHoMqr2nNaN9" target="_blank" class="resource-btn">+</a>
+            </div>
+            <div class="resource-card">
+              <div class="resource-title">🎬 Storyboard</div>
+              <div class="resource-desc">
+                Grabaciones relacionadas al storyboard.
+              </div>
+              <a href="#" target="_blank" class="resource-btn">+</a>
+            </div>
+            <div class="resource-card">
+              <div class="resource-title">🎤 Entrevista Storyboard</div>
+              <div class="resource-desc">
+                Grabaciones de las entrevistas de storyboard.
+              </div>
+              <a href="#" target="_blank" class="resource-btn">+</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      function openBook(projectId) {
-        document.getElementById("modalBackdrop").classList.add("active");
-        document.getElementById(projectId).classList.add("active");
-        document.body.style.overflow = "hidden";
+  <!-- Modal Equipo/Nosotros -->
+  <div id="team" class="modal">
+    <div class="book-content">
+      <button class="close-btn" onclick="closeBook('team')">×</button>
+      <h1 class="content-title">👥 Nuestro Equipo</h1>
+
+      <div class="section">
+        <div class="team-grid">
+          <div class="team-card">
+            <img src="img/foto_ar.jpeg" alt="Arleen Ferro Vasquez" class="team-photo"
+              onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=A'" />
+            <div class="team-name">Arleen Ferro Vasquez</div>
+            <div class="team-role"></div>
+          </div>
+
+          <div class="team-card">
+            <img src="img/foto_wil.jpeg" alt="Wilson Mamani Casilla" class="team-photo"
+              onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=W'" />
+            <div class="team-name">Wilson Mamani Casilla</div>
+            <div class="team-role"></div>
+          </div>
+
+          <div class="team-card">
+            <img src="img/foto_jaz.jpeg" alt="Jazmin Perez Villasante" class="team-photo"
+              onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=J'" />
+            <div class="team-name">Jazmin Perez Villasante</div>
+            <div class="team-role"></div>
+          </div>
+
+          <div class="team-card">
+            <img src="img/foto_edil.jpeg" alt="Edilson Mamani Yucra" class="team-photo"
+              onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=E'" />
+            <div class="team-name">Edilson Mamani Yucra</div>
+            <div class="team-role"></div>
+          </div>
+
+          <div class="team-card">
+            <img src="img/foto_cri.jpeg" alt="Cristhian Huanca Olazabal" class="team-photo"
+              onerror="this.src='https://via.placeholder.com/120/8b4513/ffffff?text=C'" />
+            <div class="team-name">Cristhian Huanca Olazabal</div>
+            <div class="team-role"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openBook(projectId) {
+      document.getElementById("modalBackdrop").classList.add("active");
+      document.getElementById(projectId).classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeBook(projectId) {
+      document.getElementById("modalBackdrop").classList.remove("active");
+      document.getElementById(projectId).classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+
+    function showTab(project, tabName) {
+      const prefix = project + "-";
+      const tabs = document.querySelectorAll(
+        `#${project === "p1" ? "proyecto1" : "proyecto2"} .tab`
+      );
+      const contents = document.querySelectorAll(
+        `#${project === "p1" ? "proyecto1" : "proyecto2"} .tab-content`
+      );
+
+      tabs.forEach((tab) => tab.classList.remove("active"));
+      contents.forEach((content) => content.classList.remove("active"));
+
+      event.target.classList.add("active");
+      document.getElementById(prefix + tabName).classList.add("active");
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        closeAllModals();
       }
+    });
 
-      function closeBook(projectId) {
-        document.getElementById("modalBackdrop").classList.remove("active");
-        document.getElementById(projectId).classList.remove("active");
-        document.body.style.overflow = "auto";
-      }
-
-      function showTab(project, tabName) {
-        const prefix = project + "-";
-        const tabs = document.querySelectorAll(
-          `#${project === "p1" ? "proyecto1" : "proyecto2"} .tab`
-        );
-        const contents = document.querySelectorAll(
-          `#${project === "p1" ? "proyecto1" : "proyecto2"} .tab-content`
-        );
-
-        tabs.forEach((tab) => tab.classList.remove("active"));
-        contents.forEach((content) => content.classList.remove("active"));
-
-        event.target.classList.add("active");
-        document.getElementById(prefix + tabName).classList.add("active");
-      }
-
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-          closeAllModals();
-        }
+    document
+      .getElementById("modalBackdrop")
+      .addEventListener("click", function () {
+        closeAllModals();
       });
 
-      document
-        .getElementById("modalBackdrop")
-        .addEventListener("click", function () {
-          closeAllModals();
-        });
-
-      function closeAllModals() {
-        document.querySelectorAll(".modal").forEach((modal) => {
-          modal.classList.remove("active");
-        });
-        document.getElementById("modalBackdrop").classList.remove("active");
-        document.body.style.overflow = "auto";
-      }
-    </script>
-  </body>
-</html>
+    function closeAllModals() {
+      document.querySelectorAll(".modal").forEach((modal) => {
+        modal.classList.remove("active");
+      });
+      document.getElementById("modalBackdrop").classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+  </script>
+</body>
