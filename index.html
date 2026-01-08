@@ -911,5 +911,53 @@
       document.getElementById("modalBackdrop").classList.remove("active");
       document.body.style.overflow = "auto";
     }
+
+    // Función para manejar la navegación por hash de URL
+    function handleUrlHash() {
+      const hash = window.location.hash.substring(1); // Quita el #
+      if (!hash) return;
+
+      const parts = hash.split('/');
+      const projectId = parts[0]; // proyecto1, proyecto2, team
+      const tabName = parts[1]; // contexto, recursos, tests, grabaciones
+
+      // Verificar si el proyecto existe
+      const modal = document.getElementById(projectId);
+      if (!modal) return;
+
+      // Abrir el modal
+      openBook(projectId);
+
+      // Si hay una pestaña especificada, abrirla
+      if (tabName && (projectId === 'proyecto1' || projectId === 'proyecto2')) {
+        const prefix = projectId === 'proyecto1' ? 'p1' : 'p2';
+        const tabContent = document.getElementById(prefix + '-' + tabName);
+
+        if (tabContent) {
+          // Desactivar todas las pestañas y contenidos
+          const tabs = modal.querySelectorAll('.tab');
+          const contents = modal.querySelectorAll('.tab-content');
+
+          tabs.forEach(tab => tab.classList.remove('active'));
+          contents.forEach(content => content.classList.remove('active'));
+
+          // Activar la pestaña correcta
+          tabContent.classList.add('active');
+
+          // Encontrar y activar el botón de la pestaña
+          tabs.forEach(tab => {
+            if (tab.textContent.trim().toLowerCase().includes(tabName.substring(0, 4))) {
+              tab.classList.add('active');
+            }
+          });
+        }
+      }
+    }
+
+    // Ejecutar cuando la página cargue
+    window.addEventListener('load', handleUrlHash);
+
+    // Ejecutar cuando el hash cambie (sin recargar la página)
+    window.addEventListener('hashchange', handleUrlHash);
   </script>
 </body>
