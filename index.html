@@ -733,20 +733,50 @@
       </div>
 
       <div id="p2-contexto" class="tab-content active">
-        <div class="section">
-          <h2 class="section-title">Contexto del Proyecto</h2>
-          <div class="section-content">
-            <p>
-              Realizacion de un proyecto de visualización relacionada con repositorios de
-              software.
-            </p>
+        <div class="section" style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 30px;
+              align-items: flex-start;
+            ">
+          <!-- 📝 Columna Izquierda: Texto -->
+          <div style="flex: 1 1 400px">
+            <h2 class="section-title">Contexto del Proyecto</h2>
+            <div class="section-content">
+              <p>
+                Realizacion de un proyecto de visualización relacionada con repositorios de
+                software.
+              </p>
+            </div>
+
+            <h2 class="section-title">Idea Principal</h2>
+            <div class="section-content">
+              <p>GitSensei transforma repositorios Git en un ecosistema visual de burbujas interactivas donde puedes
+                explorar archivos, conexiones y la evolución del código de forma intuitiva.</p>
+            </div>
           </div>
-        </div>
-        <div class="section">
-          <h2 class="section-title">Idea Principal</h2>
-          <div class="section-content">
-            <p>GitSensei transforma repositorios Git en un ecosistema visual de burbujas interactivas donde puedes
-              explorar archivos, conexiones y la evolución del código de forma intuitiva.</p>
+
+          <!-- 🎥 Columna Derecha: Video -->
+          <div style="
+                flex: 1 1 400px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+              ">
+            <h3 style="margin-bottom: 10px; color: #333">
+              Demostración del Proyecto
+            </h3>
+            <video controls style="
+                  width: 100%;
+                  max-width: 600px;
+                  border-radius: 10px;
+                  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                ">
+              <source src="video/vid_consolidado.mp4" type="video/mp4" />
+              Tu navegador no soporta videos HTML5.
+            </video>
           </div>
         </div>
       </div>
